@@ -1,0 +1,21 @@
+stages:          # List of stages for jobs, and their order of execution
+  - build
+  - deploy
+
+build-job:
+  image: docker:latest
+  stage: build
+
+  before_script:
+    - docker login registry.gitlab.com
+
+  script:
+    - docker build -t registry.gitlab.com/grupo-tdd1/backend-tdd .
+    - docker push registry.gitlab.com/grupo-tdd1/backend-tdd
+
+deploy-job:      
+  stage: deploy
+  environment: production
+  script:
+    - echo "Deploying application..."
+    - echo "Application successfully deployed."
