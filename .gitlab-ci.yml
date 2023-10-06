@@ -1,0 +1,19 @@
+stages: 
+  - build
+  - deploy
+
+build-job:
+  stage: build
+
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t $CI_REGISTRY/grupo-tdd1/backend-tdd .
+    - docker push $CI_REGISTRY/grupo-tdd1/backend-tdd
+
+
+deploy-job:      
+  stage: deploy
+  environment: production
+  script:
+    - echo "Deploying application..."
+    - echo "Application successfully deployed."
