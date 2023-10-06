@@ -7,9 +7,9 @@ build-job:
   stage: build
 
   script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD --password-stdin
-    - docker build -t $CI_REGISTRY_USER/grupo-tdd1/backend-tdd .
-    - docker push $CI_REGISTRY_USER/grupo-tdd1/backend-tdd
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t $CI_REGISTRY/grupo-tdd1/backend-tdd .
+    - docker push $CI_REGISTRY/grupo-tdd1/backend-tdd
 
 
 deploy-job:      
