@@ -17,4 +17,6 @@ deploy-job:
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker pull $CI_REGISTRY/grupo-tdd1/backend-tdd
-    - docker-compose up
+    - docker-compose up -d
+  only:
+    - main
