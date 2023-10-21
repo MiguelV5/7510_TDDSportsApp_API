@@ -2,13 +2,17 @@ stages:
   - build
   - deploy
 
+variables:
+  TAG_LATEST: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME:latest
+
 build-job:
   stage: build
-
   script:
+    - docker build -t $TAG_LATEST .
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker build -t $CI_REGISTRY/grupo-tdd1/backend-tdd .
-    - docker push $CI_REGISTRY/grupo-tdd1/backend-tdd
+    - docker push $TAG_LATEST
+  only:
+    - main
 
 
 deploy-job:      
@@ -17,7 +21,7 @@ deploy-job:
   script:
     - docker-compose down
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker pull $CI_REGISTRY/grupo-tdd1/backend-tdd
+    - docker pull $TAG_LATEST
     - docker-compose up -d
   only:
     - main
