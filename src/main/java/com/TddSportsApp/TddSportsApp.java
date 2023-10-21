@@ -4,6 +4,7 @@ package com.TddSportsApp;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.ResponseEntity;
 // import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,20 +28,22 @@ public class TddSportsApp {
     // ========================================
 
     @GetMapping("/")
-    public String index() {
-        return "index";
+    public ResponseEntity<String> index() {
+        return new ResponseEntity<>(
+                "Welcome to TDD Sports App. Refer to /swagger-ui.html for API documentation.",
+                org.springframework.http.HttpStatus.OK);
     }
 
     @GetMapping("/hello")
     public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
-        return String.format("Hello %s!", name);
+        return ResponseEntity.ok("Hello " + name + "!!").getBody();
     }
 
     // ========================================
 
     @Bean
     public OpenAPI tddSportsAppOpenAPI() {
-        return new OpenAPI().info(new Info().title("TDD Sports App API")
+        return new OpenAPI().info(new Info().title("TDD Sports App - Backend API")
                 .description("TDD Sports App API reference for developers")
                 .version("0.0.1"));
     }
