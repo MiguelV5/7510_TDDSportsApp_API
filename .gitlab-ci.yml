@@ -1,4 +1,4 @@
-stages: 
+stages:
   - build
   - deploy
 
@@ -15,13 +15,13 @@ build-job:
     - main
 
 
-deploy-job:      
+deploy-job:
   stage: deploy
   script:
     - docker-compose down --rmi all
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker pull $TAG_LATEST
-    - docker-compose up -d
+    - docker-compose -f docker-compose.yaml up -d
   environment:
     name: production
     url: http://grupo-4.2023.tecnicasdedisenio.com.ar:34001/
