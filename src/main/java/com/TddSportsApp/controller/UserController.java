@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/users")
 @RestController
 public class UserController {

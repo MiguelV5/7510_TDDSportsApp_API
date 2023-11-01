@@ -15,7 +15,7 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+
 @SpringBootApplication
 @OpenAPIDefinition
 @RestController
@@ -25,7 +25,6 @@ public class TddSportsApp {
         SpringApplication.run(TddSportsApp.class, args);
     }
 
-    // ========================================
 
     @GetMapping("/")
     public ResponseEntity<String> index() {
@@ -34,8 +33,6 @@ public class TddSportsApp {
                 org.springframework.http.HttpStatus.OK);
     }
 
-
-    // ========================================
 
     @Bean
     public OpenAPI tddSportsAppOpenAPI() {
