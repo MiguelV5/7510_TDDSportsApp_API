@@ -6,14 +6,17 @@ import com.TddSportsApp.models.RoleEntity;
 import com.TddSportsApp.models.UserEntity;
 import com.TddSportsApp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserService {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserRepository userRepository;
@@ -25,7 +28,7 @@ public class UserService {
 
         UserEntity userEntity = UserEntity.builder()
                 .username(createUserDto.getUsername())
-                .password(createUserDto.getPassword())
+                .password(passwordEncoder.encode(createUserDto.getPassword()))
                 .email(createUserDto.getEmail())
                 .role(role)
                 .build();
