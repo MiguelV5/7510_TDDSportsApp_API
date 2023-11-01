@@ -33,30 +33,26 @@ INTEGRANTES
 
 ---
 
-## Ejecicion local
+## Ejecucion local (docker; Solo API y Postgres)
 
-En el dir root del proyecto, la instalación de los paquetes y ejecucion de tests se realiza por medio de:
-
+En el dir root del proyecto ejecutar:
 ```bash
-mvn clean install
+docker compose -f docker-compose.yaml up -d 
 ```
 
-Luego para correr la API (`locahost:8080`):
+## Ejecucion local (dev & testing)
 
+En el dir root del proyecto ejecutar:
 ```bash
-java -jar target/sportEventsFiuba-0.0.1-SNAPSHOT.jar
+docker compose -f test-docker-compose.yaml up -d
 ```
 
-## Implementación de API REST
+## Implementación de API REST y Despliegue
 
 La implementación de la API se realizó por medio del framework [Spring](https://spring.io/) para java.
 
 Para la documentación de la misma se utiliza [springdoc-openapi](https://springdoc.org/). 
-
 Se puede visualizar accediendo **[aquí](https://grupo-4.2023.tecnicasdedisenio.com.ar:34001/swagger-ui.html)**.
-
-
-## Despliegue    
 
 La API está desplegada por medio de [Gitlab CI/CD](https://docs.gitlab.com/ee/ci/)
 en un servidor proporcionado por la catedra para ejecutar el gitlab-runner y los docker containers.
