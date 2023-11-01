@@ -34,10 +34,6 @@ public class TddSportsApp {
                 org.springframework.http.HttpStatus.OK);
     }
 
-    @GetMapping("/hello")
-    public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
-        return ResponseEntity.ok("Hello " + name + "!!").getBody();
-    }
 
     // ========================================
 
