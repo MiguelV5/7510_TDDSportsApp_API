@@ -48,4 +48,12 @@ public class UserService {
     public Optional<UserEntity> getUserById(String id) {
         return userRepository.findById(Long.parseLong(id));
     }
+
+    public Optional<UserEntity> getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    public Optional<UserEntity> getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
 }
