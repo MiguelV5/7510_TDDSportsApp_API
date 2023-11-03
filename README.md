@@ -52,7 +52,7 @@ docker compose -f test-docker-compose.yaml up -d
 La implementación de la API se realizó por medio del framework [Spring](https://spring.io/) para java.
 
 Para la documentación de la misma se utiliza [springdoc-openapi](https://springdoc.org/). 
-Se puede visualizar accediendo **[aquí](https://grupo-4.2023.tecnicasdedisenio.com.ar:34001/swagger-ui.html)**.
+Se puede visualizar accediendo **[aquí](https://grupo-4.2023.tecnicasdedisenio.com.ar:34001/swagger)**.
 
 La API está desplegada por medio de [Gitlab CI/CD](https://docs.gitlab.com/ee/ci/)
 en un servidor proporcionado por la catedra para ejecutar el gitlab-runner y los docker containers.
