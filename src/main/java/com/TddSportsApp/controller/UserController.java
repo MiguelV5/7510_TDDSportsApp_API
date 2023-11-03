@@ -26,31 +26,31 @@ public class UserController {
     }
 
     @GetMapping("")
-    @PreAuthorize("hasRole('ADMIN')")
+    // @PreAuthorize("hasRole('ADMIN')")
     public List<UserEntity> getUsers() {
         return userService.getUsers();
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    // @PreAuthorize("hasRole('ADMIN')")
     public Optional<UserEntity> getUserById(@PathVariable String id) {
         return userService.getUserById(id);
     }
 
     @GetMapping("/{email}")
-    @PreAuthorize("hasRole('ADMIN')")
+    // @PreAuthorize("hasRole('ADMIN')")
     public Optional<UserEntity> getUserByEmail(@PathVariable String email) {
         return userService.getUserByEmail(email);
     }
 
     @GetMapping("/{username}")
-    @PreAuthorize("hasRole('ADMIN')")
+    // @PreAuthorize("hasRole('ADMIN')")
     public Optional<UserEntity> getUserByUsername(@PathVariable String username) {
         return userService.getUserByUsername(username);
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    // @PreAuthorize("hasRole('ADMIN')")
     public String deleteUser(@PathVariable String id) {
         userService.deleteUser(id);
 
