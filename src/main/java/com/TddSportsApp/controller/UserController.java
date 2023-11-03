@@ -19,7 +19,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("")
+    @PostMapping("/register")
     public ResponseEntity<?> createUser(@Valid @RequestBody CreateUserDto createUserDto) {
         return ResponseEntity.ok(userService.createUser(createUserDto));
     }
