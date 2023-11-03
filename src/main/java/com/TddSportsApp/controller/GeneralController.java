@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class GeneralController {
 
     @GetMapping("/")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     public ResponseEntity<String> index() {
         return new ResponseEntity<>(
                 "Welcome to TDD Sports App. Refer to /swagger-ui.html for API documentation.",
