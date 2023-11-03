@@ -1,6 +1,6 @@
 package com.TddSportsApp.controller;
 
-import com.TddSportsApp.controller.request.CreateUserDto;
+import com.TddSportsApp.controller.userDto.CreateUserDto;
 import com.TddSportsApp.models.UserEntity;
 import com.TddSportsApp.service.UserService;
 import jakarta.validation.Valid;
@@ -30,12 +30,12 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public Optional<UserEntity> getUserById(@PathVariable String id){
+    public Optional<UserEntity> getUserById(@PathVariable String id) {
         return userService.getUserById(id);
     }
 
     @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable String id){
+    public String deleteUser(@PathVariable String id) {
         userService.deleteUser(id);
 
         return "Deleted user with id".concat(id);

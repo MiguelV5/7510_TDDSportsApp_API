@@ -1,6 +1,6 @@
 package com.TddSportsApp.service;
 
-import com.TddSportsApp.controller.request.CreateUserDto;
+import com.TddSportsApp.controller.userDto.CreateUserDto;
 import com.TddSportsApp.models.ERole;
 import com.TddSportsApp.models.RoleEntity;
 import com.TddSportsApp.models.UserEntity;
@@ -21,7 +21,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public UserEntity createUser(CreateUserDto createUserDto){
+    public UserEntity createUser(CreateUserDto createUserDto) {
         RoleEntity role = RoleEntity.builder()
                 .name(ERole.valueOf(createUserDto.getRole()))
                 .build();
@@ -37,7 +37,7 @@ public class UserService {
         return userEntity;
     }
 
-    public void deleteUser(String id){
+    public void deleteUser(String id) {
         userRepository.deleteById(Long.parseLong(id));
     }
 
