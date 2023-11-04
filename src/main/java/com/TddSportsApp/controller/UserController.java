@@ -1,6 +1,6 @@
 package com.TddSportsApp.controller;
 
-import com.TddSportsApp.controller.userDto.CreateUserDto;
+import com.TddSportsApp.controller.dto.CreateUserDto;
 import com.TddSportsApp.models.UserEntity;
 import com.TddSportsApp.service.UserService;
 import jakarta.validation.Valid;
