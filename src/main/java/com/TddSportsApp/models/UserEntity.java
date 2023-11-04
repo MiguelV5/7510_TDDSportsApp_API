@@ -34,11 +34,8 @@ public class UserEntity {
     @NotBlank
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private ERole role;
+    @NotBlank
+    @Size(max = 5)
+    private String role;
 
-    // @ManyToOne(fetch = FetchType.EAGER, targetEntity = RoleEntity.class, cascade
-    // = CascadeType.PERSIST)
-    // @JoinColumn(name = "role_id")
-    // private RoleEntity role;
 }

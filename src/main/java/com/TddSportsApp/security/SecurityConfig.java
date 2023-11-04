@@ -69,8 +69,8 @@ public class SecurityConfig {
                 .csrf(config -> config.disable())
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers(AUTH_WHITELIST).permitAll();
-                    auth.requestMatchers(ADMIN_ONLY_ENDPOINTS).hasRole("ADMIN");
-                    // auth.requestMatchers(USER_ONLY_ENDPOINTS).hasRole("USER");
+                    auth.requestMatchers(ADMIN_ONLY_ENDPOINTS).hasAuthority("ADMIN");
+                    // auth.requestMatchers(USER_ONLY_ENDPOINTS).hasAuthority("USER");
                     auth.anyRequest().authenticated();
                 })
                 .sessionManagement(session -> {
