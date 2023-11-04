@@ -21,10 +21,6 @@ public class UserService {
     private UserRepository userRepository;
 
     public UserEntity createUser(CreateUserDto createUserDto) {
-        // RoleEntity role = RoleEntity.builder()
-        // .name(ERole.valueOf(createUserDto.getRole()))
-        // .build();
-
         UserEntity userEntity = UserEntity.builder()
                 .username(createUserDto.getUsername())
                 .password(passwordEncoder.encode(createUserDto.getPassword()))

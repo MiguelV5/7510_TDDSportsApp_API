@@ -36,9 +36,4 @@ public class UserEntity {
 
     @Enumerated(EnumType.STRING)
     private ERole role;
-
-    // @ManyToOne(fetch = FetchType.EAGER, targetEntity = RoleEntity.class, cascade
-    // = CascadeType.PERSIST)
-    // @JoinColumn(name = "role_id")
-    // private RoleEntity role;
 }
