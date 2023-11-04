@@ -23,16 +23,22 @@ public class UserEntity {
     @Email
     @NotBlank
     @Size(max = 80)
+    @Column(unique = true)
     private String email;
 
     @NotBlank
     @Size(max = 80)
+    @Column(unique = true)
     private String username;
 
     @NotBlank
     private String password;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = RoleEntity.class, cascade = CascadeType.PERSIST)
-    @JoinColumn(name="role_id")
-    private RoleEntity role;
+    @Enumerated(EnumType.STRING)
+    private ERole role;
+
+    // @ManyToOne(fetch = FetchType.EAGER, targetEntity = RoleEntity.class, cascade
+    // = CascadeType.PERSIST)
+    // @JoinColumn(name = "role_id")
+    // private RoleEntity role;
 }

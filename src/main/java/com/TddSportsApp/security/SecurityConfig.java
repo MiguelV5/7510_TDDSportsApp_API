@@ -48,9 +48,13 @@ public class SecurityConfig {
             "/"
     };
 
-    private static final String[] ADMIN_ENDPOINTS = {
+    private static final String[] ADMIN_ONLY_ENDPOINTS = {
             "/users",
             "/users/**"
+    };
+
+    private static final String[] USER_ONLY_ENDPOINTS = {
+            // ...
     };
 
     @Bean
@@ -65,7 +69,8 @@ public class SecurityConfig {
                 .csrf(config -> config.disable())
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers(AUTH_WHITELIST).permitAll();
-                    auth.requestMatchers(ADMIN_ENDPOINTS).hasRole("ADMIN");
+                    auth.requestMatchers(ADMIN_ONLY_ENDPOINTS).hasRole("ADMIN");
+                    // auth.requestMatchers(USER_ONLY_ENDPOINTS).hasRole("USER");
                     auth.anyRequest().authenticated();
                 })
                 .sessionManagement(session -> {

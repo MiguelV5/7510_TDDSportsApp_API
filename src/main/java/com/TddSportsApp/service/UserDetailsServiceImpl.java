@@ -29,7 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         System.out.println("User loaded: ".concat(userEntity.getUsername()));
 
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_" + userEntity.getRole().getName().name()));
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + userEntity.getRole()));
 
         return new User(userEntity.getUsername(), userEntity.getPassword(), true, true, true, true, authorities);
     }
