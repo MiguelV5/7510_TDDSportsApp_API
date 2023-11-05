@@ -1,6 +1,6 @@
 package com.TddSportsApp.service;
 
-import com.TddSportsApp.controller.userDto.CreateUserDto;
+import com.TddSportsApp.controller.dto.CreateUserDto;
 import com.TddSportsApp.models.UserEntity;
 import com.TddSportsApp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
