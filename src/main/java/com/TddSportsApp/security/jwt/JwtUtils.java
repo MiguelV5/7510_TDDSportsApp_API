@@ -23,39 +23,43 @@ public class JwtUtils {
     @Value("${jwt.time.expiration}")
     private String timeExpiration;
 
-    public String generateAccessToken(String username){
-        return Jwts.builder()
-                .setSubject(username)
+    public String generateAccessToken(String username, String role) {
+        return Jwts.builder().setSubject(username)
+                .claim("role", role)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + Long.parseLong(timeExpiration)))
                 .signWith(getSignatureKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    public boolean validateToken(String token){
-        try{
+    public boolean validateToken(String token) {
+        try {
             Jwts.parserBuilder()
                     .setSigningKey(getSignatureKey())
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
             return true;
-        } catch (Exception e){
+        } catch (Exception e) {
             log.error("Invalid token, error: ".concat(e.getMessage()));
             return false;
         }
     }
 
-    public String getUsernameFromToken(String token){
+    public String getUsernameFromToken(String token) {
         return getClaim(token, Claims::getSubject);
     }
 
-    public <T> T getClaim(String token, Function<Claims, T> claimsFunction){
+    public String getRoleFromToken(String token) {
+        return getClaim(token, claims -> claims.get("role", String.class));
+    }
+
+    public <T> T getClaim(String token, Function<Claims, T> claimsFunction) {
         Claims claims = extractAllClaims(token);
         return claimsFunction.apply(claims);
     }
 
-    public Claims extractAllClaims(String token){
+    public Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSignatureKey())
                 .build()
@@ -63,10 +67,8 @@ public class JwtUtils {
                 .getBody();
     }
 
-    public Key getSignatureKey(){
+    public Key getSignatureKey() {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }
-
-

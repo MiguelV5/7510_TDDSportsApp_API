@@ -34,6 +34,7 @@ public class UserEntity {
     @NotBlank
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private ERole role;
+    @NotBlank
+    @Size(max = 5)
+    private String role;
 }

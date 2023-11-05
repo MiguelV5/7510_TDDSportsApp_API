@@ -1,7 +1,6 @@
 package com.TddSportsApp.service;
 
-import com.TddSportsApp.controller.dto.CreateUserDto;
-import com.TddSportsApp.models.ERole;
+import com.TddSportsApp.controller.userDto.CreateUserDto;
 import com.TddSportsApp.models.UserEntity;
 import com.TddSportsApp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,7 @@ public class UserService {
                 .username(createUserDto.getUsername())
                 .password(passwordEncoder.encode(createUserDto.getPassword()))
                 .email(createUserDto.getEmail())
-                .role(ERole.valueOf(createUserDto.getRole()))
+                .role(createUserDto.getRole())
                 .build();
 
         userRepository.save(userEntity);

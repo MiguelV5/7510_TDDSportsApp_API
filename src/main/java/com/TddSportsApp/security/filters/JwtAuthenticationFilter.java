@@ -35,11 +35,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         UserEntity userEntity;
         String username;
         String password;
+        String role;
 
         try {
             userEntity = new ObjectMapper().readValue(request.getInputStream(), UserEntity.class);
             username = userEntity.getUsername();
             password = userEntity.getPassword();
+            role = userEntity.getRole().toString();
 
         } catch (StreamReadException e) {
             throw new RuntimeException(e);
@@ -49,8 +51,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             throw new RuntimeException(e);
         }
 
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,
-                password);
+        String usernameAndRole = username + ";" + role;
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                usernameAndRole, password);
+
         return getAuthenticationManager().authenticate(authenticationToken);
     }
 
@@ -61,12 +65,15 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             Authentication authResult) throws IOException, ServletException {
 
         User user = (User) authResult.getPrincipal();
-        String token = jwtUtils.generateAccessToken(user.getUsername());
+        String username = user.getUsername();
+        String role = user.getAuthorities().iterator().next().toString();
+        String token = jwtUtils.generateAccessToken(username, role);
 
         response.addHeader("Authorization", token);
         Map<String, Object> httpResponse = new HashMap<>();
         httpResponse.put("Token", token);
-        httpResponse.put("Username", user.getUsername());
+        httpResponse.put("Role", role);
+        httpResponse.put("Username", username);
 
         response.getWriter().write(new ObjectMapper().writeValueAsString(httpResponse));
         response.setStatus(HttpStatus.OK.value());
