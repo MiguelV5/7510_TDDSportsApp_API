@@ -10,8 +10,10 @@ import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,6 +25,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
+@EnableMethodSecurity()
 public class SecurityConfig {
 
     @Autowired
@@ -35,19 +38,11 @@ public class SecurityConfig {
     JwtAuthorizationFilter authorizationFilter;
 
     private static final String[] AUTH_WHITELIST = {
-            // -- Swagger UI v2
-            "/v2/api-docs",
-            "/swagger-resources",
-            "/swagger-resources/**",
-            "/configuration/ui",
-            "/configuration/security",
-            "/swagger-ui.html",
-            "/swagger",
-            "/webjars/**",
             // -- Swagger UI v3 (OpenAPI)
             "/v3/api-docs/**",
             "/api-docs/**",
             "/swagger-ui/**",
+            "/swagger",
             // other public endpoints of the API
             "/register",
             "/login",
@@ -57,10 +52,6 @@ public class SecurityConfig {
     private static final String[] ADMIN_ONLY_ENDPOINTS = {
             "/users",
             "/users/**"
-    };
-
-    private static final String[] USER_ONLY_ENDPOINTS = {
-            // ...
     };
 
     @Bean
@@ -74,9 +65,20 @@ public class SecurityConfig {
         return httpSecurity.cors().and()
                 .csrf(config -> config.disable())
                 .authorizeHttpRequests(auth -> {
+                    // GENERAL:
                     auth.requestMatchers(AUTH_WHITELIST).permitAll();
-                    auth.requestMatchers(ADMIN_ONLY_ENDPOINTS).hasAuthority("ADMIN");
-                    // auth.requestMatchers(USER_ONLY_ENDPOINTS).hasAuthority("USER");
+                    auth.requestMatchers(ADMIN_ONLY_ENDPOINTS)
+                            .hasAuthority("ADMIN");
+                    // SPECIFIC:
+                    auth.requestMatchers(HttpMethod.POST, "/events")
+                            .hasAuthority("ADMIN");
+                    auth.requestMatchers(HttpMethod.GET, "/events", "/events/{id}")
+                            .hasAnyAuthority("ADMIN", "USER");
+                    auth.requestMatchers(HttpMethod.DELETE, "/events/{id}")
+                            .hasAuthority("ADMIN");
+                    auth.requestMatchers(HttpMethod.PUT, "/events/{id}")
+                            .hasAuthority("ADMIN");
+
                     auth.anyRequest().authenticated();
                 })
                 .sessionManagement(session -> {

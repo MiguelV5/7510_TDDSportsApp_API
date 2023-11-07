@@ -1,7 +1,6 @@
 package com.TddSportsApp.controller;
 
 import com.TddSportsApp.controller.dto.CreateEventDto;
-import com.TddSportsApp.controller.dto.CreateUserDto;
 import com.TddSportsApp.models.Event;
 import com.TddSportsApp.service.EventService;
 import jakarta.validation.Valid;
@@ -18,27 +17,27 @@ public class EventController {
     private EventService eventService;
 
     @PostMapping("")
-    public Event createEvent(@Valid @RequestBody CreateEventDto eventDto){
+    public Event createEvent(@Valid @RequestBody CreateEventDto eventDto) {
         return eventService.createEvent(eventDto);
     }
 
     @GetMapping("/{id}")
-    public Event getEventById(@PathVariable Long id){
+    public Event getEventById(@PathVariable Long id) {
         return eventService.getEventById(id);
     }
 
     @GetMapping("")
-    public List<Event> getEvents(){
+    public List<Event> getEvents() {
         return eventService.findAll();
     }
 
     @DeleteMapping("/{id}")
-    public void deleteEvent(@PathVariable Long id){
+    public void deleteEvent(@PathVariable Long id) {
         eventService.deleteEvent(id);
     }
 
     @PutMapping("/{id}")
-    public Event updateEvent(@PathVariable Long id, @RequestBody Event event){
+    public Event updateEvent(@PathVariable Long id, @RequestBody Event event) {
         return eventService.updateEvent(id, event);
     }
 }
