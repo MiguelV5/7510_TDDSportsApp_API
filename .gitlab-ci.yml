@@ -27,3 +27,10 @@ deploy-job:
     url: http://grupo-4.2023.tecnicasdedisenio.com.ar:34001/
   only:
     - main
+
+image-prune:
+  stage: clean-old-images
+  script:
+    - docker image prune -a -f
+  only:
+    - main
