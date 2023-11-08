@@ -40,6 +40,9 @@ public class Event {
     @NotBlank
     private Integer edition;
 
+    @NotBlank
+    private Date date;
+
     @OneToMany(mappedBy = "event")
     private List<Result> results;
 
