@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,14 +18,14 @@ public class CreateEventDto {
     private String location;
 
     @NotBlank
-    private String type;
-
-    @NotBlank
-    private String modality;
+    private String category;
 
     @NotBlank
     private Long distance;
 
     @NotBlank
     private Integer edition;
+
+    @NotBlank
+    private Date date;
 }

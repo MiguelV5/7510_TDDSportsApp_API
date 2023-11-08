@@ -10,6 +10,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Set;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -30,10 +32,7 @@ public class Event {
     private String location;
 
     @NotBlank
-    private String type;
-
-    @NotBlank
-    private String modality;
+    private String category;
 
     @NotBlank
     private Long distance;
@@ -43,4 +42,8 @@ public class Event {
 
     @OneToMany(mappedBy = "event")
     private List<Result> results;
+
+    @ManyToMany(targetEntity = UserEntity.class)
+    @JoinTable(name = "inscription", joinColumns = @JoinColumn(name = "event_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<UserEntity> inscriptions;
 }

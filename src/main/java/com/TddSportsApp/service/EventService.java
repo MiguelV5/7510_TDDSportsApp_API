@@ -3,6 +3,8 @@ package com.TddSportsApp.service;
 import com.TddSportsApp.controller.dto.CreateEventDto;
 import com.TddSportsApp.exceptions.EventNotFoundException;
 import com.TddSportsApp.models.Event;
+import com.TddSportsApp.models.EventSearchCriteria;
+import com.TddSportsApp.repositories.EventCriteriaRepository;
 import com.TddSportsApp.repositories.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,15 +17,21 @@ public class EventService {
 
     @Autowired
     private EventRepository eventRepository;
+    private EventCriteriaRepository eventCriteriaRepository;
+
+    public EventService(EventRepository eventRepository, EventCriteriaRepository eventCriteriaRepository) {
+        this.eventRepository = eventRepository;
+        this.eventCriteriaRepository = eventCriteriaRepository;
+    }
 
     public Event createEvent(CreateEventDto eventDto){
         Event event = Event.builder()
                 .name(eventDto.getName())
                 .location(eventDto.getLocation())
-                .type(eventDto.getType())
+                .category(eventDto.getCategory())
                 .edition(eventDto.getEdition())
                 .distance(eventDto.getDistance())
-                .modality(eventDto.getModality())
+                .date(eventDto.getDate())
                 .build();
 
         eventRepository.save(event);
@@ -38,8 +46,9 @@ public class EventService {
         return event.get();
     }
 
-    public List<Event> findAll(){
-        return (List<Event>) eventRepository.findAll();
+    public List<Event> getEvents(EventSearchCriteria eventSearchCriteria){
+//        return (List<Event>) eventRepository.findAll();
+        return eventCriteriaRepository.findAllWithFilters(eventSearchCriteria);
     }
 
     public void deleteEvent(Long id){
