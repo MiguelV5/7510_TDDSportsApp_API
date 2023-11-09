@@ -22,8 +22,10 @@ deploy-job:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker pull $TAG_LATEST
     - docker-compose -f docker-compose.yaml up -d
+    - docker image prune -a -f
   environment:
     name: production
     url: http://grupo-4.2023.tecnicasdedisenio.com.ar:34001/
   only:
     - main
+

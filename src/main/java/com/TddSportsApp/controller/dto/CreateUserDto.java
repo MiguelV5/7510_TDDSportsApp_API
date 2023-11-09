@@ -1,4 +1,4 @@
-package com.TddSportsApp.controller.userDto;
+package com.TddSportsApp.controller.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
