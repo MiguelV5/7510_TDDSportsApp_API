@@ -10,16 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CreateResultDto {
+public class CreateCommentDto {
     @NotBlank
-    private Boolean official;
-
-    @NotBlank
-    private Long time;
-
-    @NotBlank
-    private Integer position;
-
-    @NotBlank
-    private Boolean acceptedByAthlete;
+    private String text;
 }

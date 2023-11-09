@@ -33,18 +33,11 @@ INTEGRANTES
 
 ---
 
-## Ejecucion local (docker; Solo API y Postgres)
+## Ejecucion local (docker; API y Postgres)
 
 En el dir root del proyecto ejecutar:
 ```bash
-docker compose -f docker-compose.yaml up -d 
-```
-
-## Ejecucion local (dev & testing)
-
-En el dir root del proyecto ejecutar:
-```bash
-docker compose -f test-docker-compose.yaml up -d
+docker compose up -d 
 ```
 
 ## Implementación de API REST y Despliegue
