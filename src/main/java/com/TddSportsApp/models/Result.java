@@ -1,9 +1,7 @@
 package com.TddSportsApp.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,27 +12,26 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "users")
-public class UserEntity {
+@Table(name="result")
+public class Result {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Email
     @NotBlank
-    @Size(max = 80)
-    @Column(unique = true)
-    private String email;
+    private Boolean official;
 
     @NotBlank
-    @Size(max = 80)
-    @Column(unique = true)
-    private String username;
+    private Long time;
 
     @NotBlank
-    private String password;
+    private Integer position;
 
     @NotBlank
-    @Size(max = 5)
-    private String role;
+    private Boolean acceptedByAthlete;
+
+    @ManyToOne
+    @JoinColumn(name="event_id")
+    private Event event;
 }
