@@ -35,6 +35,10 @@ public class EventCriteriaRepository {
     }
 
     private Predicate getPredicate(EventSearchCriteria eventSearchCriteria, Root<Event> eventRoot){
+        if(eventSearchCriteria == null){
+            System.out.println("eventSearchCriteria is null");
+            return criteriaBuilder.isTrue(criteriaBuilder.literal(true));
+        }
         List<Predicate> predicates = new ArrayList<>();
 
         if (eventSearchCriteria.getName() != null){
@@ -62,14 +66,17 @@ public class EventCriteriaRepository {
                     criteriaBuilder.like(eventRoot.get("distance"), "%" + eventSearchCriteria.getDistance() + "%")
             );
         }
-        if (eventSearchCriteria.getStartDate() != null){
+        if (eventSearchCriteria.getStartDate() != null && eventSearchCriteria.getEndDate() != null){
             predicates.add(
-                    criteriaBuilder.like(eventRoot.get("startDate"), "%" + eventSearchCriteria.getStartDate() + "%")
+                    criteriaBuilder.between(eventRoot.get("date"), eventSearchCriteria.getStartDate(), eventSearchCriteria.getEndDate())
             );
-        }
-        if (eventSearchCriteria.getEndDate() != null){
+        } else if (eventSearchCriteria.getStartDate() != null){
             predicates.add(
-                    criteriaBuilder.like(eventRoot.get("endDate"), "%" + eventSearchCriteria.getEndDate() + "%")
+                    criteriaBuilder.greaterThanOrEqualTo(eventRoot.get("date"), eventSearchCriteria.getStartDate())
+            );
+        } else if (eventSearchCriteria.getEndDate() != null){
+            predicates.add(
+                    criteriaBuilder.lessThanOrEqualTo(eventRoot.get("date"), eventSearchCriteria.getEndDate())
             );
         }
 

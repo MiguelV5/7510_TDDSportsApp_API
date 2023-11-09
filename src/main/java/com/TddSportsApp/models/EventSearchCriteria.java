@@ -1,13 +1,14 @@
 package com.TddSportsApp.models;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class EventSearchCriteria {
     private String name;
     private String location;
     private String category;
-    private String edition;
-    private String distance;
+    private Integer edition;
+    private Integer distance;
     private Date startDate;
     private Date endDate;
 
@@ -35,19 +36,19 @@ public class EventSearchCriteria {
         this.category = category;
     }
 
-    public String getEdition() {
+    public Integer getEdition() {
         return edition;
     }
 
-    public void setEdition(String edition) {
+    public void setEdition(Integer edition) {
         this.edition = edition;
     }
 
-    public String getDistance() {
+    public Integer getDistance() {
         return distance;
     }
 
-    public void setDistance(String distance) {
+    public void setDistance(Integer distance) {
         this.distance = distance;
     }
 

@@ -47,7 +47,6 @@ public class EventService {
     }
 
     public List<Event> getEvents(EventSearchCriteria eventSearchCriteria){
-//        return (List<Event>) eventRepository.findAll();
         return eventCriteriaRepository.findAllWithFilters(eventSearchCriteria);
     }
 
