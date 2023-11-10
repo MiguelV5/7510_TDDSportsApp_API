@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CreateCommentDto {
     @NotBlank
-    private String text;
+    private String commentText;
 }

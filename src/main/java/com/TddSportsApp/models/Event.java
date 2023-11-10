@@ -46,6 +46,9 @@ public class Event {
     @OneToMany(mappedBy = "event")
     private List<Result> results;
 
+    @OneToMany(mappedBy = "event")
+    private List<Comment> comments;
+
     @ManyToMany(targetEntity = UserEntity.class)
     @JoinTable(name = "inscription", joinColumns = @JoinColumn(name = "event_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<UserEntity> inscriptions;

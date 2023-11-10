@@ -1,18 +1,30 @@
 package com.TddSportsApp.models;
 
+import jakarta.validation.constraints.Size;
 import lombok.Builder;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Builder
 public class EventSearchCriteria {
+
+    @Size(max = 80)
     private String name;
+
+    @Size(max = 80)
     private String location;
+
+    @Size(max = 80)
     private String category;
+
     private Integer edition;
     private Integer distance;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
 
     public String getName() {

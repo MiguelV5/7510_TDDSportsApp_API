@@ -50,6 +50,11 @@ public class EventService {
         return eventCriteriaRepository.findAllWithFilters(eventSearchCriteria);
     }
 
+    public List<Comment> getEventComments(Long eventId) {
+        return commentService.getCommentsByEventId(eventId);
+
+    }
+
     public void deleteEvent(Long id){
         eventRepository.deleteById(id);
     }
