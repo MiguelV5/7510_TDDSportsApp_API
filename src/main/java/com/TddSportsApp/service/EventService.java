@@ -2,6 +2,7 @@ package com.TddSportsApp.service;
 
 import com.TddSportsApp.controller.dto.CreateEventDto;
 import com.TddSportsApp.exceptions.EventNotFoundException;
+import com.TddSportsApp.models.Comment;
 import com.TddSportsApp.models.Event;
 import com.TddSportsApp.models.EventSearchCriteria;
 import com.TddSportsApp.repositories.EventCriteriaRepository;
@@ -18,6 +19,9 @@ public class EventService {
     @Autowired
     private EventRepository eventRepository;
     private EventCriteriaRepository eventCriteriaRepository;
+
+    @Autowired
+    private CommentService commentService;
 
     public EventService(EventRepository eventRepository, EventCriteriaRepository eventCriteriaRepository) {
         this.eventRepository = eventRepository;
@@ -43,6 +47,7 @@ public class EventService {
         if (event.isEmpty()){
             throw new EventNotFoundException("Event not found with id: " + id);
         }
+
         return event.get();
     }
 

@@ -7,13 +7,9 @@ import com.TddSportsApp.service.EventService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
+
+import static com.TddSportsApp.utils.DateParser.parseDate;
 
 @RestController()
 @RequestMapping("/events")
@@ -22,15 +18,6 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
-    private Date parseDate(String dateStr) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            return formatter.parse(dateStr);
-        } catch (Exception e) {
-            System.out.println("Error: " + e);
-            return null;
-        }
-    }
 
     @PostMapping("")
     public Event createEvent(@Valid @RequestBody CreateEventDto eventDto){
