@@ -1,8 +1,11 @@
 package com.TddSportsApp.models;
 
+import lombok.Builder;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Builder
 public class EventSearchCriteria {
     private String name;
     private String location;
