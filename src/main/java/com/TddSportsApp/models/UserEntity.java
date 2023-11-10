@@ -40,6 +40,6 @@ public class UserEntity {
     @Size(max = 5)
     private String role;
 
-    @OneToMany(mappedBy = "userEntity")
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
     private List<Comment> comments;
 }
