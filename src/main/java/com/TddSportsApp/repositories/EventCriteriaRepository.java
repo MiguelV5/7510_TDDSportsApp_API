@@ -61,9 +61,9 @@ public class EventCriteriaRepository {
                     criteriaBuilder.like(eventRoot.get("edition"), "%" + eventSearchCriteria.getEdition() + "%")
             );
         }
-        if (eventSearchCriteria.getDistance() != null){
+        if (eventSearchCriteria.getStartDistance() != null && eventSearchCriteria.getEndDistance() != null){
             predicates.add(
-                    criteriaBuilder.like(eventRoot.get("distance"), "%" + eventSearchCriteria.getDistance() + "%")
+                    criteriaBuilder.between(eventRoot.get("distance"), eventSearchCriteria.getStartDistance(), eventSearchCriteria.getEndDistance())
             );
         }
         if (eventSearchCriteria.getStartDate() != null && eventSearchCriteria.getEndDate() != null){

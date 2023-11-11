@@ -20,7 +20,8 @@ public class EventSearchCriteria {
     private String category;
 
     private Integer edition;
-    private Integer distance;
+    private Integer startDistance;
+    private Integer endDistance;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
@@ -62,12 +63,19 @@ public class EventSearchCriteria {
         this.edition = edition;
     }
 
-    public Integer getDistance() {
-        return distance;
+    public Integer getStartDistance() {
+        return startDistance;
     }
 
-    public void setDistance(Integer distance) {
-        this.distance = distance;
+    public Integer getEndDistance() {
+        return endDistance;
+    }
+    public void setStartDistance(Integer startDistance) {
+        this.startDistance = startDistance;
+    }
+
+    public void setEndDistance(Integer endDistance) {
+        this.endDistance = endDistance;
     }
 
     public Date getStartDate() {
