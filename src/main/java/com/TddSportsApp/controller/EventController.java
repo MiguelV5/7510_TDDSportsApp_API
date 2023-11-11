@@ -1,18 +1,16 @@
 package com.TddSportsApp.controller;
 
 import com.TddSportsApp.controller.dto.CreateEventDto;
-import com.TddSportsApp.controller.dto.CreateUserDto;
 import com.TddSportsApp.models.Event;
 import com.TddSportsApp.models.EventSearchCriteria;
 import com.TddSportsApp.service.EventService;
+import com.TddSportsApp.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
+
+import static com.TddSportsApp.utils.DateParser.parseDate;
 
 @RestController()
 @RequestMapping("/events")
@@ -38,38 +36,19 @@ public class EventController {
                                  @RequestParam(required = false) Integer distance,
                                  @RequestParam(required = false) Integer edition,
                                  @RequestParam(required = false) String startDate,
-                                 @RequestParam(required = false) String endDate){
+                                 @RequestParam(required = false) String endDate,
+                                 @RequestParam(required = false) Boolean enrolled){
 
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
-        EventSearchCriteria eventSearchCriteria = new EventSearchCriteria();
-        eventSearchCriteria.setName(name);
-        eventSearchCriteria.setLocation(location);
-        eventSearchCriteria.setCategory(category);
-        eventSearchCriteria.setDistance(distance);
-        eventSearchCriteria.setEdition(edition);
-
-        if (startDate != null){
-            try {
-                Date startDateSetter = formatter.parse(startDate);
-                eventSearchCriteria.setStartDate(startDateSetter);
-                System.out.println("Start date: " + startDateSetter);
-            } catch (ParseException e) {
-                System.out.println("Error: " + e);
-            }
-        } else {
-            eventSearchCriteria.setStartDate(null);
-        }
-        if (endDate != null){
-            try {
-                Date endDateSetter = formatter.parse(endDate);
-                eventSearchCriteria.setEndDate(endDateSetter);
-            } catch (ParseException e) {
-                System.out.println("Error: " + e);
-            }
-        } else {
-            eventSearchCriteria.setEndDate(null);
-        }
+        EventSearchCriteria eventSearchCriteria = EventSearchCriteria.builder()
+                .name(name)
+                .location(location)
+                .category(category)
+                .distance(distance)
+                .edition(edition)
+                .startDate(parseDate(startDate))
+                .endDate(parseDate(endDate))
+                .enrolled(enrolled)
+                .build();
 
         return eventService.getEvents(eventSearchCriteria);
     }
@@ -82,5 +61,11 @@ public class EventController {
     @PutMapping("/{id}")
     public Event updateEvent(@PathVariable Long id, @RequestBody Event event){
         return eventService.updateEvent(id, event);
+    }
+
+    @PostMapping("/{id}/inscription")
+    public void enrollUser(@PathVariable Long id){
+        System.out.println("Enrolling user");
+        eventService.enrollUser(id);
     }
 }

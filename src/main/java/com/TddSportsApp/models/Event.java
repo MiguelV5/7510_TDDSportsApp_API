@@ -28,6 +28,8 @@ public class Event {
     @Size(max = 80)
     private String name;
 
+    private String description;
+
     @NotBlank
     private String location;
 
@@ -43,10 +45,17 @@ public class Event {
     @NotBlank
     private Date date;
 
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<Result> results;
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Comment> comments;
 
     @ManyToMany(targetEntity = UserEntity.class)
     @JoinTable(name = "inscription", joinColumns = @JoinColumn(name = "event_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<UserEntity> inscriptions;
+
+    public void addInscription(UserEntity user){
+        this.inscriptions.add(user);
+    }
 }

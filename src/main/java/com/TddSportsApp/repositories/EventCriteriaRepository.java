@@ -23,10 +23,10 @@ public class EventCriteriaRepository {
         this.criteriaBuilder = entityManager.getCriteriaBuilder();
     }
 
-    public List<Event> findAllWithFilters(EventSearchCriteria eventSearchCriteria){
+    public List<Event> findAllWithFilters(EventSearchCriteria eventSearchCriteria, Long currentUserId) {
         CriteriaQuery<Event> criteriaQuery = criteriaBuilder.createQuery(Event.class);
         Root<Event> eventRoot = criteriaQuery.from(Event.class);
-        Predicate predicate = getPredicate(eventSearchCriteria, eventRoot);
+        Predicate predicate = getPredicate(eventSearchCriteria, eventRoot, currentUserId);
         criteriaQuery.where(predicate);
 
         TypedQuery<Event> typedQuery = entityManager.createQuery(criteriaQuery);
@@ -34,7 +34,7 @@ public class EventCriteriaRepository {
         return typedQuery.getResultList();
     }
 
-    private Predicate getPredicate(EventSearchCriteria eventSearchCriteria, Root<Event> eventRoot){
+    private Predicate getPredicate(EventSearchCriteria eventSearchCriteria, Root<Event> eventRoot, Long currentUserId){
         if(eventSearchCriteria == null){
             System.out.println("eventSearchCriteria is null");
             return criteriaBuilder.isTrue(criteriaBuilder.literal(true));
@@ -79,6 +79,14 @@ public class EventCriteriaRepository {
                     criteriaBuilder.lessThanOrEqualTo(eventRoot.get("date"), eventSearchCriteria.getEndDate())
             );
         }
+        if (eventSearchCriteria.getEnrolled() != null){
+            // join table Events with table Inscriptions ON Events.id = Inscriptions.event_id and get all rows where Inscriptions.user_id = currentUserId
+            // SELECT * FROM events JOIN inscriptions ON events.id = inscriptions.event_id WHERE inscriptions.user_id = currentUserId
+            predicates.add(
+                    criteriaBuilder.equal(eventRoot.join("inscriptions").get("id"), currentUserId)
+            );
+        }
+
 
         return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
     }

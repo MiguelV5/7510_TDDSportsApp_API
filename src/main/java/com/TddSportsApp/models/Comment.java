@@ -1,7 +1,9 @@
 package com.TddSportsApp.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,20 +16,22 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name="comment")
 public class Comment {
-    // NO SE SI FALTA AGREGARLE ALGO MAS
     @NotBlank
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotBlank
-    private String text;
+    @Size(max = 280)
+    private String commentText;
 
     @ManyToOne
-    @JoinColumn(name="event_id")
+    @JoinColumn(name = "event_id")
+    @JsonIgnore
     private Event event;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name="user_id")
+    @JsonIgnore
     private UserEntity userEntity;
 }
