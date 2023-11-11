@@ -66,6 +66,16 @@ public class EventCriteriaRepository {
                     criteriaBuilder.between(eventRoot.get("distance"), eventSearchCriteria.getStartDistance(), eventSearchCriteria.getEndDistance())
             );
         }
+        else if (eventSearchCriteria.getStartDistance() != null){
+            predicates.add(
+                    criteriaBuilder.greaterThanOrEqualTo(eventRoot.get("distance"), eventSearchCriteria.getStartDistance())
+            );
+        }
+        else if (eventSearchCriteria.getEndDistance() != null){
+            predicates.add(
+                    criteriaBuilder.lessThanOrEqualTo(eventRoot.get("distance"), eventSearchCriteria.getEndDistance())
+            );
+        }
         if (eventSearchCriteria.getStartDate() != null && eventSearchCriteria.getEndDate() != null){
             predicates.add(
                     criteriaBuilder.between(eventRoot.get("date"), eventSearchCriteria.getStartDate(), eventSearchCriteria.getEndDate())
