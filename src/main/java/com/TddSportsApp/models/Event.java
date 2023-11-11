@@ -52,4 +52,8 @@ public class Event {
     @ManyToMany(targetEntity = UserEntity.class)
     @JoinTable(name = "inscription", joinColumns = @JoinColumn(name = "event_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<UserEntity> inscriptions;
+
+    public void addInscription(UserEntity user){
+        this.inscriptions.add(user);
+    }
 }

@@ -4,6 +4,7 @@ import com.TddSportsApp.controller.dto.CreateEventDto;
 import com.TddSportsApp.models.Event;
 import com.TddSportsApp.models.EventSearchCriteria;
 import com.TddSportsApp.service.EventService;
+import com.TddSportsApp.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,6 @@ public class EventController {
 
     @Autowired
     private EventService eventService;
-
 
     @PostMapping("")
     public Event createEvent(@Valid @RequestBody CreateEventDto eventDto){
@@ -36,7 +36,8 @@ public class EventController {
                                  @RequestParam(required = false) Integer distance,
                                  @RequestParam(required = false) Integer edition,
                                  @RequestParam(required = false) String startDate,
-                                 @RequestParam(required = false) String endDate){
+                                 @RequestParam(required = false) String endDate,
+                                 @RequestParam(required = false) Boolean enrolled){
 
         EventSearchCriteria eventSearchCriteria = EventSearchCriteria.builder()
                 .name(name)
@@ -46,6 +47,7 @@ public class EventController {
                 .edition(edition)
                 .startDate(parseDate(startDate))
                 .endDate(parseDate(endDate))
+                .enrolled(enrolled)
                 .build();
 
         return eventService.getEvents(eventSearchCriteria);
@@ -59,5 +61,11 @@ public class EventController {
     @PutMapping("/{id}")
     public Event updateEvent(@PathVariable Long id, @RequestBody Event event){
         return eventService.updateEvent(id, event);
+    }
+
+    @PostMapping("/{id}/inscription")
+    public void enrollUser(@PathVariable Long id){
+        System.out.println("Enrolling user");
+        eventService.enrollUser(id);
     }
 }

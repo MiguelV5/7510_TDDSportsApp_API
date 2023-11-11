@@ -42,4 +42,8 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
     private List<Comment> comments;
+
+    public Long getId() {
+        return id;
+    }
 }

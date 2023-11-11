@@ -9,7 +9,7 @@ public interface DateParser {
         try {
             return formatter.parse(dateStr);
         } catch (Exception e) {
-            System.out.println("Error: " + e);
+            System.out.println("Parse error: " + e);
             return null;
         }
     }

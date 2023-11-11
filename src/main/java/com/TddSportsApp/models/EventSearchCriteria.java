@@ -1,6 +1,7 @@
 package com.TddSportsApp.models;
 
 import jakarta.validation.constraints.Size;
+import jdk.jfr.BooleanFlag;
 import lombok.Builder;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -26,6 +27,8 @@ public class EventSearchCriteria {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
+
+    private Boolean enrolled;
 
     public String getName() {
         return name;
@@ -81,5 +84,9 @@ public class EventSearchCriteria {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public Boolean getEnrolled() {
+        return enrolled;
     }
 }

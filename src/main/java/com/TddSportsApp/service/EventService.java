@@ -5,6 +5,7 @@ import com.TddSportsApp.exceptions.EventNotFoundException;
 import com.TddSportsApp.models.Comment;
 import com.TddSportsApp.models.Event;
 import com.TddSportsApp.models.EventSearchCriteria;
+import com.TddSportsApp.models.UserEntity;
 import com.TddSportsApp.repositories.EventCriteriaRepository;
 import com.TddSportsApp.repositories.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ public class EventService {
 
     @Autowired
     private CommentService commentService;
+
+    @Autowired
+    private UserService userService;
 
     public EventService(EventRepository eventRepository, EventCriteriaRepository eventCriteriaRepository) {
         this.eventRepository = eventRepository;
@@ -52,7 +56,7 @@ public class EventService {
     }
 
     public List<Event> getEvents(EventSearchCriteria eventSearchCriteria){
-        return eventCriteriaRepository.findAllWithFilters(eventSearchCriteria);
+        return eventCriteriaRepository.findAllWithFilters(eventSearchCriteria, userService.getLoggedUserId());
     }
 
     public List<Comment> getEventComments(Long eventId) {
@@ -73,5 +77,13 @@ public class EventService {
 
         updatedEvent.setId(id);
         return eventRepository.save(updatedEvent);
+    }
+
+    public void enrollUser(Long eventId) {
+        Event event = this.getEventById(eventId);
+        UserEntity user = userService.getUserById(userService.getLoggedUserId()).get();
+
+        event.addInscription(user);
+        eventRepository.save(event);
     }
 }
