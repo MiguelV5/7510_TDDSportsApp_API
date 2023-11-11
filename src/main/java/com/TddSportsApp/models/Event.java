@@ -28,6 +28,8 @@ public class Event {
     @Size(max = 80)
     private String name;
 
+    private String description;
+
     @NotBlank
     private String location;
 
