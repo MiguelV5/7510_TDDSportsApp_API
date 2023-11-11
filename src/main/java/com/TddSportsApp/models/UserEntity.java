@@ -9,6 +9,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -37,4 +39,11 @@ public class UserEntity {
     @NotBlank
     @Size(max = 5)
     private String role;
+
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    private List<Comment> comments;
+
+    public Long getId() {
+        return id;
+    }
 }

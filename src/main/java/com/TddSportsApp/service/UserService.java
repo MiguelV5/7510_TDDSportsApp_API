@@ -4,6 +4,7 @@ import com.TddSportsApp.controller.dto.CreateUserDto;
 import com.TddSportsApp.models.UserEntity;
 import com.TddSportsApp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,11 @@ public class UserService {
         return userEntity;
     }
 
+    public Long getLoggedUserId() {
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userRepository.findByUsername(username).get().getId();
+    }
+
     public void deleteUser(String id) {
         userRepository.deleteById(Long.parseLong(id));
     }
@@ -39,8 +45,8 @@ public class UserService {
         return (List<UserEntity>) userRepository.findAll();
     }
 
-    public Optional<UserEntity> getUserById(String id) {
-        return userRepository.findById(Long.parseLong(id));
+    public Optional<UserEntity> getUserById(Long id) {
+        return userRepository.findById(id);
     }
 
     public Optional<UserEntity> getUserByEmail(String email) {
