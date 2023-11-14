@@ -22,4 +22,10 @@ public class CreateResultDto {
 
     @NotBlank
     private Boolean acceptedByAthlete;
+
+    @NotBlank
+    private Long eventId;
+
+    @NotBlank
+    private Long userId;
 }

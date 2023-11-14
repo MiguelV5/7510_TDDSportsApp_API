@@ -48,6 +48,9 @@ public class UserEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Inscription> inscriptions;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Result> results;
+
     public Long getId() {
         return id;
     }
