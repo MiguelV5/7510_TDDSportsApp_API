@@ -30,8 +30,7 @@ public class EventController {
     }
 
     @GetMapping("")
-    public List<Event> getEvents(@RequestParam(required = false) String name,
-                                 @RequestParam(required = false) String location,
+    public List<Event> getEvents(@RequestParam(required = false) String location,
                                  @RequestParam(required = false) String category,
                                  @RequestParam(required = false) Integer distance,
                                  @RequestParam(required = false) Integer edition,
@@ -40,7 +39,6 @@ public class EventController {
                                  @RequestParam(required = false) Boolean enrolled){
 
         EventSearchCriteria eventSearchCriteria = EventSearchCriteria.builder()
-                .name(name)
                 .location(location)
                 .category(category)
                 .distance(distance)
@@ -63,14 +61,13 @@ public class EventController {
         return eventService.updateEvent(id, event);
     }
 
-    @PostMapping("/{id}/inscription")
+    @PostMapping("/{id}/enroll")
     public void enrollUser(@PathVariable Long id){
-        System.out.println("Enrolling user");
         eventService.enrollUser(id);
     }
 
-    @PostMapping("/{id}/comment")
-    public void createEventComment(@PathVariable Long id, @RequestBody String commentText){
-        eventService.createEventComment(id, commentText);
+    @DeleteMapping("/{id}/unenroll")
+    public void unenrollUser(@PathVariable Long id){
+        eventService.unenrollUser(id);
     }
 }

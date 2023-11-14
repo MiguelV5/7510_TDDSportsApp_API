@@ -29,4 +29,8 @@ public class InscriptionService {
         inscriptionRepository.save(inscription);
         return inscription;
     }
+
+    public void deleteInscription(Event event, UserEntity user){
+        inscriptionRepository.deleteById(new InscriptionKey(event.getId(), user.getId()));
+    }
 }
