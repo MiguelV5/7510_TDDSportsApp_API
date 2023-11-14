@@ -41,11 +41,6 @@ public class EventCriteriaRepository {
         }
         List<Predicate> predicates = new ArrayList<>();
 
-        if (eventSearchCriteria.getName() != null){
-            predicates.add(
-                    criteriaBuilder.like(eventRoot.get("name"), "%" + eventSearchCriteria.getName() + "%")
-            );
-        }
         if (eventSearchCriteria.getLocation() != null){
             predicates.add(
                     criteriaBuilder.like(eventRoot.get("location"), "%" + eventSearchCriteria.getLocation() + "%")

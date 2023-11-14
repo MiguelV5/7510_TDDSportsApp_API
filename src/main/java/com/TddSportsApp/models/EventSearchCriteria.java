@@ -9,10 +9,6 @@ import java.util.Date;
 
 @Builder
 public class EventSearchCriteria {
-
-    @Size(max = 80)
-    private String name;
-
     @Size(max = 80)
     private String location;
 
@@ -29,14 +25,6 @@ public class EventSearchCriteria {
     private Date endDate;
 
     private Boolean enrolled;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getLocation() {
         return location;

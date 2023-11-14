@@ -1,10 +1,12 @@
 package com.TddSportsApp.service;
 
 import com.TddSportsApp.controller.dto.CreateUserDto;
+import com.TddSportsApp.exceptions.UserNotFoundException;
 import com.TddSportsApp.models.UserEntity;
 import com.TddSportsApp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -45,7 +47,11 @@ public class UserService {
         return (List<UserEntity>) userRepository.findAll();
     }
 
-    public Optional<UserEntity> getUserById(Long id) {
-        return userRepository.findById(id);
+    public UserEntity getUserById(Long id) {
+        Optional<UserEntity> user = userRepository.findById(id);
+        if (user.isEmpty()) {
+            throw new UserNotFoundException("User not found with id: " + id);
+        }
+        return user.get();
     }
 }
