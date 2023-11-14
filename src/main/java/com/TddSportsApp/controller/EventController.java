@@ -68,4 +68,9 @@ public class EventController {
         System.out.println("Enrolling user");
         eventService.enrollUser(id);
     }
+
+    @PostMapping("/{id}/comment")
+    public void createEventComment(@PathVariable Long id, @RequestBody String commentText){
+        eventService.createEventComment(id, commentText);
+    }
 }

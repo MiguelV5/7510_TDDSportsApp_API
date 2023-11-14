@@ -28,20 +28,11 @@ public class CommentService {
     private UserRepository userRepository;
 
     @Transactional
-    public Comment createComment(CreateCommentDto commentDto){
-        System.out.println("Event ID: " + commentDto.getEventId());
-        System.out.println("User ID: " + commentDto.getUserId());
-
-        Event event = eventRepository.findById(commentDto.getEventId())
-                .orElseThrow(() -> new EventNotFoundException("Event not found with ID: " + commentDto.getEventId()));
-
-        UserEntity userEntity = userRepository.findById(commentDto.getUserId())
-                .orElseThrow(() -> new UserNotFoundException("UserEntity not found with ID: " + commentDto.getUserId()));
-
+    public Comment createComment(Event event, UserEntity userEntity, String commentText){
         Comment comment = Comment.builder()
-                .commentText(commentDto.getCommentText())
+                .commentText(commentText)
                 .event(event)
-                .userEntity(userEntity)
+                .user(userEntity)
                 .build();
 
         commentRepository.save(comment);
@@ -59,9 +50,5 @@ public class CommentService {
         comment.setCommentText(commentText);
         commentRepository.save(comment);
         return comment;
-    }
-
-    public List<Comment> getCommentsByEventId(Long eventId){
-        return commentRepository.findCommentsByEventId(eventId);
     }
 }

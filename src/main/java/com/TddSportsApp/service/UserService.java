@@ -32,9 +32,9 @@ public class UserService {
         return userEntity;
     }
 
-    public Long getLoggedUserId() {
+    public UserEntity getLoggedUser() {
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return userRepository.findByUsername(username).get().getId();
+        return userRepository.findByUsername(username).get();
     }
 
     public void deleteUser(String id) {

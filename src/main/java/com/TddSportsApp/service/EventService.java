@@ -2,15 +2,14 @@ package com.TddSportsApp.service;
 
 import com.TddSportsApp.controller.dto.CreateEventDto;
 import com.TddSportsApp.exceptions.EventNotFoundException;
-import com.TddSportsApp.models.Comment;
-import com.TddSportsApp.models.Event;
-import com.TddSportsApp.models.EventSearchCriteria;
-import com.TddSportsApp.models.UserEntity;
+import com.TddSportsApp.models.*;
 import com.TddSportsApp.repositories.EventCriteriaRepository;
 import com.TddSportsApp.repositories.EventRepository;
+import com.TddSportsApp.repositories.InscriptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,10 +21,13 @@ public class EventService {
     private EventCriteriaRepository eventCriteriaRepository;
 
     @Autowired
-    private CommentService commentService;
+    private UserService userService;
 
     @Autowired
-    private UserService userService;
+    private InscriptionService inscriptionService;
+
+    @Autowired
+    private CommentService commentService;
 
     public EventService(EventRepository eventRepository, EventCriteriaRepository eventCriteriaRepository) {
         this.eventRepository = eventRepository;
@@ -56,12 +58,7 @@ public class EventService {
     }
 
     public List<Event> getEvents(EventSearchCriteria eventSearchCriteria){
-        return eventCriteriaRepository.findAllWithFilters(eventSearchCriteria, userService.getLoggedUserId());
-    }
-
-    public List<Comment> getEventComments(Long eventId) {
-        return commentService.getCommentsByEventId(eventId);
-
+        return eventCriteriaRepository.findAllWithFilters(eventSearchCriteria, userService.getLoggedUser().getId());
     }
 
     public void deleteEvent(Long id){
@@ -81,8 +78,15 @@ public class EventService {
 
     public void enrollUser(Long eventId) {
         Event event = this.getEventById(eventId);
-        UserEntity user = userService.getUserById(userService.getLoggedUserId()).get();
+        UserEntity user = userService.getLoggedUser();
 
         Inscription inscription = inscriptionService.createInscription(event, user);
+    }
+
+    public void createEventComment(Long eventId, String commentText) {
+        Event event = this.getEventById(eventId);
+        UserEntity user = userService.getLoggedUser();
+
+        Comment comment = commentService.createComment(event, user, commentText);
     }
 }

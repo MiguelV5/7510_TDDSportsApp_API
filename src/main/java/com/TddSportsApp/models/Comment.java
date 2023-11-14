@@ -9,6 +9,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -33,5 +35,7 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name="user_id")
     @JsonIgnore
-    private UserEntity userEntity;
+    private UserEntity user;
+
+    private Date commentDate;
 }
