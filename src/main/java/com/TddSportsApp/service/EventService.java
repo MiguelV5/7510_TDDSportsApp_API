@@ -83,7 +83,6 @@ public class EventService {
         Event event = this.getEventById(eventId);
         UserEntity user = userService.getUserById(userService.getLoggedUserId()).get();
 
-        event.addInscription(user);
-        eventRepository.save(event);
+        Inscription inscription = inscriptionService.createInscription(event, user);
     }
 }

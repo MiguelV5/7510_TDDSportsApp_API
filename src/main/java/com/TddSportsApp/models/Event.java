@@ -1,5 +1,6 @@
 package com.TddSportsApp.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import jakarta.validation.constraints.NotBlank;
@@ -51,11 +52,6 @@ public class Event {
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> comments;
 
-    @ManyToMany(targetEntity = UserEntity.class)
-    @JoinTable(name = "inscription", joinColumns = @JoinColumn(name = "event_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private Set<UserEntity> inscriptions;
-
-    public void addInscription(UserEntity user){
-        this.inscriptions.add(user);
-    }
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Inscription> inscriptions;
 }
