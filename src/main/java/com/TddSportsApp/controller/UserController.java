@@ -32,16 +32,6 @@ public class UserController {
         return userService.getUserById(Long.parseLong(id));
     }
 
-    @GetMapping("/users/{email}")
-    public Optional<UserEntity> getUserByEmail(@PathVariable String email) {
-        return userService.getUserByEmail(email);
-    }
-
-    @GetMapping("/users/{username}")
-    public Optional<UserEntity> getUserByUsername(@PathVariable String username) {
-        return userService.getUserByUsername(username);
-    }
-
     @DeleteMapping("/users/{id}")
     public String deleteUser(@PathVariable String id) {
         userService.deleteUser(id);
