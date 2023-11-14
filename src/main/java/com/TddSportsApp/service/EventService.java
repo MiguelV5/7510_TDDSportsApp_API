@@ -26,9 +26,6 @@ public class EventService {
     @Autowired
     private InscriptionService inscriptionService;
 
-    @Autowired
-    private CommentService commentService;
-
     public EventService(EventRepository eventRepository, EventCriteriaRepository eventCriteriaRepository) {
         this.eventRepository = eventRepository;
         this.eventCriteriaRepository = eventCriteriaRepository;
@@ -83,10 +80,9 @@ public class EventService {
         Inscription inscription = inscriptionService.createInscription(event, user);
     }
 
-    public void createEventComment(Long eventId, String commentText) {
+    public void unenrollUser(Long eventId) {
         Event event = this.getEventById(eventId);
         UserEntity user = userService.getLoggedUser();
-
-        Comment comment = commentService.createComment(event, user, commentText);
+        inscriptionService.deleteInscription(event, user);
     }
 }

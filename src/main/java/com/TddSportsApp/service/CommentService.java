@@ -2,18 +2,16 @@ package com.TddSportsApp.service;
 
 import com.TddSportsApp.controller.dto.CreateCommentDto;
 import com.TddSportsApp.exceptions.EventNotFoundException;
-import com.TddSportsApp.exceptions.UserNotFoundException;
 import com.TddSportsApp.models.Comment;
+import com.TddSportsApp.controller.dto.UpdateCommentDto;
 import com.TddSportsApp.models.Event;
 import com.TddSportsApp.models.UserEntity;
 import com.TddSportsApp.repositories.CommentRepository;
-import com.TddSportsApp.repositories.EventRepository;
-import com.TddSportsApp.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Date;
 
 @Service
 public class CommentService {
@@ -22,32 +20,42 @@ public class CommentService {
     private CommentRepository commentRepository;
 
     @Autowired
-    private EventRepository eventRepository;
+    private EventService eventService;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Transactional
-    public Comment createComment(Event event, UserEntity userEntity, String commentText){
+    public Comment createComment(CreateCommentDto createComment){
+        Event event = eventService.getEventById(createComment.getEventId());
+        UserEntity user = userService.getLoggedUser();
+
         Comment comment = Comment.builder()
-                .commentText(commentText)
+                .commentText(createComment.getCommentText())
                 .event(event)
-                .user(userEntity)
+                .user(user)
+                .commentDate(new Date())
                 .build();
 
         commentRepository.save(comment);
         return comment;
     }
 
+    public Comment getCommentById(Long id){
+        return commentRepository.findById(id)
+                .orElseThrow(() -> new EventNotFoundException("Comment not found with ID: " + id));
+    }
+
     public void deleteComment(Long id){
         commentRepository.deleteById(id);
     }
 
-    public Comment updateComment(Long id, String commentText){
+    public Comment updateComment(Long id, UpdateCommentDto commentDto) {
+
         Comment comment = commentRepository.findById(id)
                 .orElseThrow(() -> new EventNotFoundException("Comment not found with ID: " + id));
 
-        comment.setCommentText(commentText);
+        comment.setCommentText(commentDto.getCommentText());
         commentRepository.save(comment);
         return comment;
     }
