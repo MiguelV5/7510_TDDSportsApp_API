@@ -1,6 +1,6 @@
 package com.TddSportsApp.controller;
 
-import com.TddSportsApp.controller.dto.CreateUserDto;
+import com.TddSportsApp.models.dto.CreateUserDto;
 import com.TddSportsApp.models.UserEntity;
 import com.TddSportsApp.service.UserService;
 import jakarta.validation.Valid;
@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class UserController {

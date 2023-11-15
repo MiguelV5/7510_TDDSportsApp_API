@@ -1,17 +1,18 @@
 package com.TddSportsApp.service;
 
-import com.TddSportsApp.controller.dto.CreateEventDto;
+import com.TddSportsApp.models.dto.CreateEventDto;
 import com.TddSportsApp.exceptions.EventNotFoundException;
 import com.TddSportsApp.models.*;
+import com.TddSportsApp.models.dto.EventSuperDto;
+import com.TddSportsApp.models.dto.ResultWithUsernameDto;
 import com.TddSportsApp.repositories.EventCriteriaRepository;
 import com.TddSportsApp.repositories.EventRepository;
-import com.TddSportsApp.repositories.InscriptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
 
 @Service
 public class EventService {

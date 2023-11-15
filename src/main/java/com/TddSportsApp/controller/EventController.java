@@ -1,10 +1,10 @@
 package com.TddSportsApp.controller;
 
-import com.TddSportsApp.controller.dto.CreateEventDto;
+import com.TddSportsApp.models.dto.CreateEventDto;
 import com.TddSportsApp.models.Event;
 import com.TddSportsApp.models.EventSearchCriteria;
+import com.TddSportsApp.models.dto.EventSuperDto;
 import com.TddSportsApp.service.EventService;
-import com.TddSportsApp.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,8 +25,8 @@ public class EventController {
     }
 
     @GetMapping("/{id}")
-    public Event getEventById(@PathVariable Long id){
-        return eventService.getEventById(id);
+    public EventSuperDto getEventById(@PathVariable Long id){
+        return eventService.getEventByIdWithExtraFields(id);
     }
 
     @GetMapping("")

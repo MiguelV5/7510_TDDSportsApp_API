@@ -1,6 +1,6 @@
 package com.TddSportsApp.service;
 
-import com.TddSportsApp.controller.dto.CreateResultDto;
+import com.TddSportsApp.models.dto.CreateResultDto;
 import com.TddSportsApp.exceptions.ResultNotFoundException;
 import com.TddSportsApp.models.Event;
 import com.TddSportsApp.models.Result;
@@ -9,7 +9,6 @@ import com.TddSportsApp.repositories.ResultRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service

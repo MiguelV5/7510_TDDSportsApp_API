@@ -1,9 +1,9 @@
 package com.TddSportsApp.service;
 
-import com.TddSportsApp.controller.dto.CreateCommentDto;
+import com.TddSportsApp.models.dto.CreateCommentDto;
 import com.TddSportsApp.exceptions.EventNotFoundException;
 import com.TddSportsApp.models.Comment;
-import com.TddSportsApp.controller.dto.UpdateCommentDto;
+import com.TddSportsApp.models.dto.UpdateCommentDto;
 import com.TddSportsApp.models.Event;
 import com.TddSportsApp.models.UserEntity;
 import com.TddSportsApp.repositories.CommentRepository;

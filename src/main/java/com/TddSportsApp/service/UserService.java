@@ -1,12 +1,11 @@
 package com.TddSportsApp.service;
 
-import com.TddSportsApp.controller.dto.CreateUserDto;
+import com.TddSportsApp.models.dto.CreateUserDto;
 import com.TddSportsApp.exceptions.UserNotFoundException;
 import com.TddSportsApp.models.UserEntity;
 import com.TddSportsApp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

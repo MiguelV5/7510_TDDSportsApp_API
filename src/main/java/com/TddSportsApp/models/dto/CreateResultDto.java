@@ -1,4 +1,4 @@
-package com.TddSportsApp.controller.dto;
+package com.TddSportsApp.models.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

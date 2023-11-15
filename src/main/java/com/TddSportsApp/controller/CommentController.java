@@ -1,7 +1,7 @@
 package com.TddSportsApp.controller;
 
-import com.TddSportsApp.controller.dto.CreateCommentDto;
-import com.TddSportsApp.controller.dto.UpdateCommentDto;
+import com.TddSportsApp.models.dto.CreateCommentDto;
+import com.TddSportsApp.models.dto.UpdateCommentDto;
 import com.TddSportsApp.models.Comment;
 import com.TddSportsApp.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;

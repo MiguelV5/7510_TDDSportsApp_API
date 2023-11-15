@@ -1,6 +1,6 @@
 package com.TddSportsApp.controller;
 
-import com.TddSportsApp.controller.dto.CreateResultDto;
+import com.TddSportsApp.models.dto.CreateResultDto;
 import com.TddSportsApp.models.Result;
 import com.TddSportsApp.service.ResultService;
 import org.springframework.beans.factory.annotation.Autowired;
