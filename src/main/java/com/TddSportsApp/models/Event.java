@@ -54,4 +54,8 @@ public class Event {
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Inscription> inscriptions;
+
+    public List<Result> getResults() {
+        return results;
+    }
 }

@@ -47,12 +47,40 @@ public class EventService {
     }
 
     public Event getEventById(Long id){
-        Optional<Event> event = eventRepository.findById(id);
-        if (event.isEmpty()){
-            throw new EventNotFoundException("Event not found with id: " + id);
-        }
+        return eventRepository.findById(id)
+                .orElseThrow(() -> new EventNotFoundException("Event not found with ID: " + id));
+    }
 
-        return event.get();
+    public List<ResultWithUsernameDto> getEventResultsWithUsernames(Event event) {
+        return event.getResults()
+                .stream()
+                .map(result -> new ResultWithUsernameDto(
+                        result.getId(),
+                        result.getOfficial(),
+                        result.getTime(),
+                        result.getPosition(),
+                        result.getAcceptedByAthlete(),
+                        result.getUser().getUsername())
+                ).toList();
+    }
+
+    public EventSuperDto getEventByIdWithExtraFields(Long id){
+        Event event = this.getEventById(id);
+
+        List<ResultWithUsernameDto> resultsWithUsername = getEventResultsWithUsernames(event);
+
+        return new EventSuperDto(
+                event.getId(),
+                event.getName(),
+                event.getDescription(),
+                event.getLocation(),
+                event.getCategory(),
+                event.getDistance(),
+                event.getEdition(),
+                event.getDate(),
+                resultsWithUsername,
+                event.getComments(),
+                event.getInscriptions());
     }
 
     public List<Event> getEvents(EventSearchCriteria eventSearchCriteria){
