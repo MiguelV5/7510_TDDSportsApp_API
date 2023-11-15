@@ -1,5 +1,6 @@
 package com.TddSportsApp.service;
 
+import com.TddSportsApp.models.dto.CommentWithUsernameDto;
 import com.TddSportsApp.models.dto.CreateEventDto;
 import com.TddSportsApp.exceptions.EventNotFoundException;
 import com.TddSportsApp.models.*;
@@ -51,6 +52,17 @@ public class EventService {
                 .orElseThrow(() -> new EventNotFoundException("Event not found with ID: " + id));
     }
 
+    public List<CommentWithUsernameDto> getEventCommentsWithUsernames(Event event) {
+        return event.getComments()
+                .stream()
+                .map(comment -> new CommentWithUsernameDto(
+                        comment.getId(),
+                        comment.getCommentText(),
+                        comment.getCommentDate(),
+                        comment.getUser().getUsername())
+                ).toList();
+    }
+
     public List<ResultWithUsernameDto> getEventResultsWithUsernames(Event event) {
         return event.getResults()
                 .stream()
@@ -68,6 +80,7 @@ public class EventService {
         Event event = this.getEventById(id);
 
         List<ResultWithUsernameDto> resultsWithUsername = getEventResultsWithUsernames(event);
+        List<CommentWithUsernameDto> commentsWithUsername = getEventCommentsWithUsernames(event);
 
         return new EventSuperDto(
                 event.getId(),
@@ -79,7 +92,7 @@ public class EventService {
                 event.getEdition(),
                 event.getDate(),
                 resultsWithUsername,
-                event.getComments(),
+                commentsWithUsername,
                 event.getInscriptions());
     }
 

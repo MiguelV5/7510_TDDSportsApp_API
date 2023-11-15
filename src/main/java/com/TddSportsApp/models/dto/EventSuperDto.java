@@ -1,7 +1,5 @@
 package com.TddSportsApp.models.dto;
 
-import com.TddSportsApp.models.Comment;
-import com.TddSportsApp.models.Event;
 import com.TddSportsApp.models.Inscription;
 import lombok.Data;
 
@@ -28,11 +26,11 @@ public class EventSuperDto {
 
     private List<ResultWithUsernameDto> results;
 
-    private List<Comment> comments;
+    private List<CommentWithUsernameDto> comments;
 
     private List<Inscription> inscriptions;
 
-    public EventSuperDto(Long id, String name, String description, String location, String category, Long distance, Integer edition, Date date, List<ResultWithUsernameDto> results, List<Comment> comments, List<Inscription> inscriptions) {
+    public EventSuperDto(Long id, String name, String description, String location, String category, Long distance, Integer edition, Date date, List<ResultWithUsernameDto> results, List<CommentWithUsernameDto> comments, List<Inscription> inscriptions) {
         this.id = id;
         this.name = name;
         this.description = description;
