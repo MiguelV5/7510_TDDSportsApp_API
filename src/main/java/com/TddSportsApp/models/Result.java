@@ -1,5 +1,6 @@
 package com.TddSportsApp.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -33,5 +34,11 @@ public class Result {
 
     @ManyToOne
     @JoinColumn(name="event_id")
+    @JsonIgnore
     private Event event;
+
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    @JsonIgnore
+    private UserEntity user;
 }

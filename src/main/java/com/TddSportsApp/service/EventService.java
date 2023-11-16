@@ -1,11 +1,11 @@
 package com.TddSportsApp.service;
 
-import com.TddSportsApp.controller.dto.CreateEventDto;
+import com.TddSportsApp.models.dto.CommentWithUsernameDto;
+import com.TddSportsApp.models.dto.CreateEventDto;
 import com.TddSportsApp.exceptions.EventNotFoundException;
-import com.TddSportsApp.models.Comment;
-import com.TddSportsApp.models.Event;
-import com.TddSportsApp.models.EventSearchCriteria;
-import com.TddSportsApp.models.UserEntity;
+import com.TddSportsApp.models.*;
+import com.TddSportsApp.models.dto.EventSuperDto;
+import com.TddSportsApp.models.dto.ResultWithUsernameDto;
 import com.TddSportsApp.repositories.EventCriteriaRepository;
 import com.TddSportsApp.repositories.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 
 @Service
 public class EventService {
@@ -22,10 +23,10 @@ public class EventService {
     private EventCriteriaRepository eventCriteriaRepository;
 
     @Autowired
-    private CommentService commentService;
+    private UserService userService;
 
     @Autowired
-    private UserService userService;
+    private InscriptionService inscriptionService;
 
     public EventService(EventRepository eventRepository, EventCriteriaRepository eventCriteriaRepository) {
         this.eventRepository = eventRepository;
@@ -47,21 +48,56 @@ public class EventService {
     }
 
     public Event getEventById(Long id){
-        Optional<Event> event = eventRepository.findById(id);
-        if (event.isEmpty()){
-            throw new EventNotFoundException("Event not found with id: " + id);
-        }
+        return eventRepository.findById(id)
+                .orElseThrow(() -> new EventNotFoundException("Event not found with ID: " + id));
+    }
 
-        return event.get();
+    public List<CommentWithUsernameDto> getEventCommentsWithUsernames(Event event) {
+        return event.getComments()
+                .stream()
+                .map(comment -> new CommentWithUsernameDto(
+                        comment.getId(),
+                        comment.getCommentText(),
+                        comment.getCommentDate(),
+                        comment.getUser().getUsername())
+                ).toList();
+    }
+
+    public List<ResultWithUsernameDto> getEventResultsWithUsernames(Event event) {
+        return event.getResults()
+                .stream()
+                .map(result -> new ResultWithUsernameDto(
+                        result.getId(),
+                        result.getOfficial(),
+                        result.getTime(),
+                        result.getPosition(),
+                        result.getAcceptedByAthlete(),
+                        result.getUser().getUsername())
+                ).toList();
+    }
+
+    public EventSuperDto getEventByIdWithExtraFields(Long id){
+        Event event = this.getEventById(id);
+
+        List<ResultWithUsernameDto> resultsWithUsername = getEventResultsWithUsernames(event);
+        List<CommentWithUsernameDto> commentsWithUsername = getEventCommentsWithUsernames(event);
+
+        return new EventSuperDto(
+                event.getId(),
+                event.getName(),
+                event.getDescription(),
+                event.getLocation(),
+                event.getCategory(),
+                event.getDistance(),
+                event.getEdition(),
+                event.getDate(),
+                resultsWithUsername,
+                commentsWithUsername,
+                event.getInscriptions());
     }
 
     public List<Event> getEvents(EventSearchCriteria eventSearchCriteria){
-        return eventCriteriaRepository.findAllWithFilters(eventSearchCriteria, userService.getLoggedUserId());
-    }
-
-    public List<Comment> getEventComments(Long eventId) {
-        return commentService.getCommentsByEventId(eventId);
-
+        return eventCriteriaRepository.findAllWithFilters(eventSearchCriteria, userService.getLoggedUser().getId());
     }
 
     public void deleteEvent(Long id){
@@ -81,9 +117,14 @@ public class EventService {
 
     public void enrollUser(Long eventId) {
         Event event = this.getEventById(eventId);
-        UserEntity user = userService.getUserById(userService.getLoggedUserId()).get();
+        UserEntity user = userService.getLoggedUser();
 
-        event.addInscription(user);
-        eventRepository.save(event);
+        Inscription inscription = inscriptionService.createInscription(event, user);
+    }
+
+    public void unenrollUser(Long eventId) {
+        Event event = this.getEventById(eventId);
+        UserEntity user = userService.getLoggedUser();
+        inscriptionService.deleteInscription(event, user);
     }
 }

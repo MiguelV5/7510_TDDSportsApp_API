@@ -1,6 +1,6 @@
 package com.TddSportsApp.controller;
 
-import com.TddSportsApp.controller.dto.CreateUserDto;
+import com.TddSportsApp.models.dto.CreateUserDto;
 import com.TddSportsApp.models.UserEntity;
 import com.TddSportsApp.service.UserService;
 import jakarta.validation.Valid;
@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class UserController {
@@ -28,18 +27,8 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public Optional<UserEntity> getUserById(@PathVariable String id) {
+    public UserEntity getUserById(@PathVariable String id) {
         return userService.getUserById(Long.parseLong(id));
-    }
-
-    @GetMapping("/users/{email}")
-    public Optional<UserEntity> getUserByEmail(@PathVariable String email) {
-        return userService.getUserByEmail(email);
-    }
-
-    @GetMapping("/users/{username}")
-    public Optional<UserEntity> getUserByUsername(@PathVariable String username) {
-        return userService.getUserByUsername(username);
     }
 
     @DeleteMapping("/users/{id}")

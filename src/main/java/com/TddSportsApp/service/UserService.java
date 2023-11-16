@@ -1,6 +1,7 @@
 package com.TddSportsApp.service;
 
-import com.TddSportsApp.controller.dto.CreateUserDto;
+import com.TddSportsApp.models.dto.CreateUserDto;
+import com.TddSportsApp.exceptions.UserNotFoundException;
 import com.TddSportsApp.models.UserEntity;
 import com.TddSportsApp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +33,9 @@ public class UserService {
         return userEntity;
     }
 
-    public Long getLoggedUserId() {
+    public UserEntity getLoggedUser() {
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return userRepository.findByUsername(username).get().getId();
+        return userRepository.findByUsername(username).get();
     }
 
     public void deleteUser(String id) {
@@ -45,15 +46,11 @@ public class UserService {
         return (List<UserEntity>) userRepository.findAll();
     }
 
-    public Optional<UserEntity> getUserById(Long id) {
-        return userRepository.findById(id);
-    }
-
-    public Optional<UserEntity> getUserByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
-
-    public Optional<UserEntity> getUserByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public UserEntity getUserById(Long id) {
+        Optional<UserEntity> user = userRepository.findById(id);
+        if (user.isEmpty()) {
+            throw new UserNotFoundException("User not found with id: " + id);
+        }
+        return user.get();
     }
 }
