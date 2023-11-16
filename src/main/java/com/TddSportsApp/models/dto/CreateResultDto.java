@@ -1,4 +1,4 @@
-package com.TddSportsApp.controller.dto;
+package com.TddSportsApp.models.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -22,4 +22,10 @@ public class CreateResultDto {
 
     @NotBlank
     private Boolean acceptedByAthlete;
+
+    @NotBlank
+    private Long eventId;
+
+    @NotBlank
+    private Long userId;
 }

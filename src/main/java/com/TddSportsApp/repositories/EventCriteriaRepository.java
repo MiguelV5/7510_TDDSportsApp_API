@@ -41,11 +41,6 @@ public class EventCriteriaRepository {
         }
         List<Predicate> predicates = new ArrayList<>();
 
-        if (eventSearchCriteria.getName() != null){
-            predicates.add(
-                    criteriaBuilder.like(eventRoot.get("name"), "%" + eventSearchCriteria.getName() + "%")
-            );
-        }
         if (eventSearchCriteria.getLocation() != null){
             predicates.add(
                     criteriaBuilder.like(eventRoot.get("location"), "%" + eventSearchCriteria.getLocation() + "%")
@@ -80,10 +75,8 @@ public class EventCriteriaRepository {
             );
         }
         if (eventSearchCriteria.getEnrolled() != null){
-            // join table Events with table Inscriptions ON Events.id = Inscriptions.event_id and get all rows where Inscriptions.user_id = currentUserId
-            // SELECT * FROM events JOIN inscriptions ON events.id = inscriptions.event_id WHERE inscriptions.user_id = currentUserId
             predicates.add(
-                    criteriaBuilder.equal(eventRoot.join("inscriptions").get("id"), currentUserId)
+                    criteriaBuilder.equal(eventRoot.join("inscriptions").get("user").get("id"), currentUserId)
             );
         }
 

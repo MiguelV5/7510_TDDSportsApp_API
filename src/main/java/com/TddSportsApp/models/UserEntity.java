@@ -1,5 +1,6 @@
 package com.TddSportsApp.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -10,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -40,8 +42,14 @@ public class UserEntity {
     @Size(max = 5)
     private String role;
 
-    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Comment> comments;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Inscription> inscriptions;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Result> results;
 
     public Long getId() {
         return id;
