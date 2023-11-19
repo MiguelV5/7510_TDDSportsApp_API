@@ -3,6 +3,8 @@ package com.TddSportsApp.service;
 import com.TddSportsApp.models.dto.CreateUserDto;
 import com.TddSportsApp.exceptions.UserNotFoundException;
 import com.TddSportsApp.models.UserEntity;
+import com.TddSportsApp.models.dto.ResultWithEventDetailsDto;
+import com.TddSportsApp.models.dto.UserEntitySuperDto;
 import com.TddSportsApp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -52,5 +54,36 @@ public class UserService {
             throw new UserNotFoundException("User not found with id: " + id);
         }
         return user.get();
+    }
+
+    public List<ResultWithEventDetailsDto> getUserResultsWithEventDetails(UserEntity user) {
+        return user.getResults()
+                .stream()
+                .map(result -> new ResultWithEventDetailsDto(
+                        result.getId(),
+                        result.getOfficial(),
+                        result.getTime(),
+                        result.getPosition(),
+                        result.getAcceptedByAthlete(),
+                        result.getEvent().getName(),
+                        result.getEvent().getDescription(),
+                        result.getEvent().getId()
+                )).toList();
+    }
+
+    public UserEntitySuperDto getLoggedUserInfo() {
+        UserEntity user = getLoggedUser();
+        List<ResultWithEventDetailsDto> results = getUserResultsWithEventDetails(user);
+
+        return new UserEntitySuperDto(
+                user.getId(),
+                user.getEmail(),
+                user.getUsername(),
+                user.getPassword(),
+                user.getRole(),
+                user.getComments(),
+                user.getInscriptions(),
+                results
+        );
     }
 }

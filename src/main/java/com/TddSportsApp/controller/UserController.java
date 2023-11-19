@@ -2,6 +2,7 @@ package com.TddSportsApp.controller;
 
 import com.TddSportsApp.models.dto.CreateUserDto;
 import com.TddSportsApp.models.UserEntity;
+import com.TddSportsApp.models.dto.UserEntitySuperDto;
 import com.TddSportsApp.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ public class UserController {
     public UserEntity getUserById(@PathVariable String id) {
         return userService.getUserById(Long.parseLong(id));
     }
+
+    @GetMapping("/users/me")
+    public UserEntitySuperDto getLoggedUser() { return userService.getLoggedUserInfo();}
 
     @DeleteMapping("/users/{id}")
     public String deleteUser(@PathVariable String id) {
