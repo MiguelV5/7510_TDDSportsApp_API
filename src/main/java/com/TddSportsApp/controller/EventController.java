@@ -32,7 +32,8 @@ public class EventController {
     @GetMapping("")
     public List<Event> getEvents(@RequestParam(required = false) String location,
                                  @RequestParam(required = false) String category,
-                                 @RequestParam(required = false) Integer distance,
+                                 @RequestParam(required = false) Integer startDistance,
+                                 @RequestParam(required = false) Integer endDistance,
                                  @RequestParam(required = false) Integer edition,
                                  @RequestParam(required = false) String startDate,
                                  @RequestParam(required = false) String endDate,
@@ -41,7 +42,7 @@ public class EventController {
         EventSearchCriteria eventSearchCriteria = EventSearchCriteria.builder()
                 .location(location)
                 .category(category)
-                .distance(distance)
+                .startDistance(startDistance)
                 .edition(edition)
                 .startDate(parseDate(startDate))
                 .endDate(parseDate(endDate))
