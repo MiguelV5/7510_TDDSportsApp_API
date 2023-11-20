@@ -115,11 +115,11 @@ public class EventService {
         return eventRepository.save(updatedEvent);
     }
 
-    public void enrollUser(Long eventId) {
+    public Inscription enrollUser(Long eventId) {
         Event event = this.getEventById(eventId);
         UserEntity user = userService.getLoggedUser();
 
-        Inscription inscription = inscriptionService.createInscription(event, user);
+        return inscriptionService.createInscription(event, user);
     }
 
     public void unenrollUser(Long eventId) {

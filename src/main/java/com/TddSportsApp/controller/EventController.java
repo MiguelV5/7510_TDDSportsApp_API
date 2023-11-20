@@ -1,5 +1,6 @@
 package com.TddSportsApp.controller;
 
+import com.TddSportsApp.models.Inscription;
 import com.TddSportsApp.models.dto.CreateEventDto;
 import com.TddSportsApp.models.Event;
 import com.TddSportsApp.models.EventSearchCriteria;
@@ -63,8 +64,8 @@ public class EventController {
     }
 
     @PostMapping("/{id}/enroll")
-    public void enrollUser(@PathVariable Long id){
-        eventService.enrollUser(id);
+    public Inscription enrollUser(@PathVariable Long id){
+        return eventService.enrollUser(id);
     }
 
     @DeleteMapping("/{id}/unenroll")
