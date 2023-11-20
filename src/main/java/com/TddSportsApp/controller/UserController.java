@@ -33,7 +33,9 @@ public class UserController {
     }
 
     @GetMapping("/users/me")
-    public UserEntitySuperDto getLoggedUser() { return userService.getLoggedUserInfo();}
+    public UserEntitySuperDto getLoggedUserInfo() {
+        return userService.getLoggedUserInfo();
+    }
 
     @DeleteMapping("/users/{id}")
     public String deleteUser(@PathVariable String id) {

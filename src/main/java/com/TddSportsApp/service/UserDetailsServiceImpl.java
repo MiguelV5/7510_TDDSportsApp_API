@@ -32,8 +32,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         UserEntity userEntity = tryLoadUserFromDB(requestedUsername, requestedRole);
 
-        System.out.println("User loaded: " + userEntity.getUsername());
-
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(userEntity.getRole()));
 
@@ -56,8 +54,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                                 "User " + requestedUsername + " does not exists."));
 
         String roleFromDB = userEntity.getRole();
-        System.out.println("Role from DB: " + roleFromDB);
-        System.out.println("Role sent: " + requestedRole);
         validateRole(requestedRole, roleFromDB, requestedUsername);
         return userEntity;
     }
