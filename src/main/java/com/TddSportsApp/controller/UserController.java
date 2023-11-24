@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/users")
 public class UserController {
 
     @Autowired
@@ -22,22 +23,23 @@ public class UserController {
         return ResponseEntity.ok(userService.createUser(createUserDto));
     }
 
-    @GetMapping("/users")
+    @GetMapping("")
     public List<UserEntity> getUsers() {
         return userService.getUsers();
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/{id}")
     public UserEntity getUserById(@PathVariable String id) {
         return userService.getUserById(Long.parseLong(id));
     }
 
-    @GetMapping("/users/me")
+    @GetMapping("/me")
     public UserEntitySuperDto getLoggedUserInfo() {
+        System.out.println("getLoggedUserInfo");
         return userService.getLoggedUserInfo();
     }
 
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable String id) {
         userService.deleteUser(id);
 
