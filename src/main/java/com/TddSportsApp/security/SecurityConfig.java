@@ -38,20 +38,38 @@ public class SecurityConfig {
     JwtAuthorizationFilter authorizationFilter;
 
     private static final String[] AUTH_WHITELIST = {
-            // -- Swagger UI v3 (OpenAPI)
             "/v3/api-docs/**",
             "/api-docs/**",
             "/swagger-ui/**",
             "/swagger",
             // other public endpoints of the API
-            "/register",
+            "users/register",
             "/login",
             "/"
     };
 
-    private static final String[] ADMIN_ONLY_ENDPOINTS = {
-            "/users"
-    };
+    private static final String ADMIN = "ADMIN";
+
+    public HttpSecurity addPermissions(HttpSecurity httpSecurity) throws Exception {
+        return httpSecurity.cors().and()
+                .csrf(config -> config.disable())
+                .authorizeHttpRequests(auth -> {
+            auth.requestMatchers(AUTH_WHITELIST).permitAll();
+            auth.requestMatchers(HttpMethod.POST, "/events")
+                    .hasAuthority(ADMIN);
+            auth.requestMatchers(HttpMethod.DELETE, "/events/{id}", "/users/{id}", "/results/{id}")
+                    .hasAuthority(ADMIN);
+            auth.requestMatchers(HttpMethod.PUT, "/events/{id}")
+                    .hasAuthority(ADMIN);
+            auth.requestMatchers(HttpMethod.GET, "/users/me")
+                    .authenticated();
+            auth.requestMatchers(HttpMethod.GET, "/users", "/users/{id}")
+                    .hasAuthority(ADMIN);
+
+
+            auth.anyRequest().authenticated();
+        });
+    }
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, AuthenticationManager authenticationManager)
@@ -61,25 +79,7 @@ public class SecurityConfig {
         jwtAuthenticationFilter.setAuthenticationManager(authenticationManager);
         jwtAuthenticationFilter.setFilterProcessesUrl("/login");
 
-        return httpSecurity.cors().and()
-                .csrf(config -> config.disable())
-                .authorizeHttpRequests(auth -> {
-                    // GENERAL:
-                    auth.requestMatchers(AUTH_WHITELIST).permitAll();
-                    auth.requestMatchers(ADMIN_ONLY_ENDPOINTS)
-                            .hasAuthority("ADMIN");
-                    // SPECIFIC:
-                    auth.requestMatchers(HttpMethod.POST, "/events")
-                            .hasAuthority("ADMIN");
-                    auth.requestMatchers(HttpMethod.GET, "/events", "/events/{id}")
-                            .hasAnyAuthority("ADMIN", "USER");
-                    auth.requestMatchers(HttpMethod.DELETE, "/events/{id}")
-                            .hasAuthority("ADMIN");
-                    auth.requestMatchers(HttpMethod.PUT, "/events/{id}")
-                            .hasAuthority("ADMIN");
-
-                    auth.anyRequest().authenticated();
-                })
+        return addPermissions(httpSecurity)
                 .sessionManagement(session -> {
                     session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
                 })

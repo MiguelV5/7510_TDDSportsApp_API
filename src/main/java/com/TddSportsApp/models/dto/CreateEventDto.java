@@ -14,6 +14,8 @@ public class CreateEventDto {
     @Size(max = 80)
     private String name;
 
+    private String description;
+
     @NotBlank
     private String location;
 

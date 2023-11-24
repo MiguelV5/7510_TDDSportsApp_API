@@ -1,5 +1,6 @@
 package com.TddSportsApp.controller;
 
+import com.TddSportsApp.exceptions.EventNotFoundException;
 import com.TddSportsApp.models.Inscription;
 import com.TddSportsApp.models.dto.CreateEventDto;
 import com.TddSportsApp.models.Event;
@@ -8,7 +9,11 @@ import com.TddSportsApp.models.dto.EventSuperDto;
 import com.TddSportsApp.service.EventService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.util.List;
 
 import static com.TddSportsApp.utils.DateParser.parseDate;
@@ -26,8 +31,12 @@ public class EventController {
     }
 
     @GetMapping("/{id}")
-    public EventSuperDto getEventById(@PathVariable Long id){
-        return eventService.getEventByIdWithExtraFields(id);
+    public ResponseEntity<?> getEventById(@PathVariable Long id){
+        try {
+            return ResponseEntity.ok(eventService.getEventByIdWithExtraFields(id));
+        } catch(EventNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @GetMapping("")
@@ -59,17 +68,30 @@ public class EventController {
     }
 
     @PutMapping("/{id}")
-    public Event updateEvent(@PathVariable Long id, @RequestBody Event event){
-        return eventService.updateEvent(id, event);
+    public ResponseEntity<?> updateEvent(@PathVariable Long id, @RequestBody Event event){
+        try {
+            return ResponseEntity.ok(eventService.updateEvent(id, event));
+        } catch(EventNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PostMapping("/{id}/enroll")
-    public Inscription enrollUser(@PathVariable Long id){
-        return eventService.enrollUser(id);
+    public ResponseEntity<?> enrollUser(@PathVariable Long id){
+        try {
+            return ResponseEntity.ok(eventService.enrollUser(id));
+        } catch(EventNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}/unenroll")
-    public void unenrollUser(@PathVariable Long id){
-        eventService.unenrollUser(id);
+    public ResponseEntity<?> unenrollUser(@PathVariable Long id){
+        try {
+            eventService.unenrollUser(id);
+            return ResponseEntity.ok().build();
+        } catch(EventNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
