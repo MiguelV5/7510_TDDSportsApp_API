@@ -24,12 +24,9 @@ public class UserService {
     private UserRepository userRepository;
 
     public UserEntity createUser(CreateUserDto createUserDto) {
-        UserEntity userEntity = UserEntity.builder()
-                .username(createUserDto.getUsername())
-                .password(passwordEncoder.encode(createUserDto.getPassword()))
-                .email(createUserDto.getEmail())
-                .role(createUserDto.getRole())
-                .build();
+        String encodedPassword = passwordEncoder.encode(createUserDto.getPassword());
+        createUserDto.setPassword(encodedPassword);
+        UserEntity userEntity = createUserDto.toUserEntity();
 
         userRepository.save(userEntity);
         return userEntity;
@@ -41,6 +38,7 @@ public class UserService {
     }
 
     public void deleteUser(String id) {
+        this.getUserById(Long.parseLong(id));
         userRepository.deleteById(Long.parseLong(id));
     }
 
@@ -85,5 +83,19 @@ public class UserService {
                 user.getInscriptions(),
                 results
         );
+    }
+
+    public UserEntity updateUser(CreateUserDto updatedUser) {
+        UserEntity loggedUser = this.getLoggedUser();
+
+        try {
+            loggedUser.setEmail(updatedUser.getEmail());
+            loggedUser.setUsername(updatedUser.getUsername());
+            loggedUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+            loggedUser.setRole(updatedUser.getRole());
+            return userRepository.save(loggedUser);
+        } catch (Exception e) {
+            throw new RuntimeException("Error updating user");
+        }
     }
 }

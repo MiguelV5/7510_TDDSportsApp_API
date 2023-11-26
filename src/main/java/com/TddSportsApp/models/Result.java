@@ -13,7 +13,6 @@ import lombok.*;
 @Entity
 @Table(name="result")
 public class Result {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
