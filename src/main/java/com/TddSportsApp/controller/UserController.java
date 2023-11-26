@@ -30,11 +30,11 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getUserById(@PathVariable String id) {
+    public ResponseEntity<UserEntity> getUserById(@PathVariable String id) {
         try {
             return ResponseEntity.ok(userService.getUserById(Long.parseLong(id)));
         } catch (UserNotFoundException e) {
-            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+            return ResponseEntity.notFound().build();
         }
     }
 
@@ -50,12 +50,12 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable String id) {
+    public ResponseEntity deleteUser(@PathVariable String id) {
         try {
             userService.deleteUser(id);
-            return ResponseEntity.ok("User with id " + id + " deleted successfully");
+            return ResponseEntity.ok().build();
         } catch (UserNotFoundException e) {
-            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+            return ResponseEntity.notFound().build();
         }
     }
 }

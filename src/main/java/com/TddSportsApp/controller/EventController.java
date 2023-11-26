@@ -63,8 +63,13 @@ public class EventController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteEvent(@PathVariable Long id){
-        eventService.deleteEvent(id);
+    public ResponseEntity deleteEvent(@PathVariable Long id){
+        try {
+            eventService.deleteEvent(id);
+            return ResponseEntity.ok().build();
+        } catch(EventNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PutMapping("/{id}")

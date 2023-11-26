@@ -93,6 +93,7 @@ public class EventService {
     }
 
     public void deleteEvent(Long id){
+        this.getEventById(id);
         eventRepository.deleteById(id);
     }
 

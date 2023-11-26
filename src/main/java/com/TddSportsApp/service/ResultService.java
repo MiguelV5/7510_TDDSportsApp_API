@@ -26,7 +26,6 @@ public class ResultService {
     public Result createResult(CreateResultDto resultDto){
         Event event = eventService.getEventById(resultDto.getEventId());
         UserEntity user = userService.getUserById(resultDto.getUserId());
-//        UserEntity user = userService.getLoggedUser();
 
         System.out.println("Result DTO: " + resultDto);
 
@@ -52,6 +51,7 @@ public class ResultService {
     }
 
     public void deleteResult(Long id){
+        this.getResultById(id);
         resultRepository.deleteById(id);
     }
 
