@@ -1,5 +1,6 @@
 package com.TddSportsApp.controller;
 
+import com.TddSportsApp.exceptions.UserNotFoundException;
 import com.TddSportsApp.models.dto.CreateUserDto;
 import com.TddSportsApp.models.UserEntity;
 import com.TddSportsApp.models.dto.UserEntitySuperDto;
@@ -19,7 +20,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> createUser(@Valid @RequestBody CreateUserDto createUserDto) {
+    public ResponseEntity<UserEntity> createUser(@Valid @RequestBody CreateUserDto createUserDto) {
         return ResponseEntity.ok(userService.createUser(createUserDto));
     }
 
@@ -29,8 +30,12 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public UserEntity getUserById(@PathVariable String id) {
-        return userService.getUserById(Long.parseLong(id));
+    public ResponseEntity<?> getUserById(@PathVariable String id) {
+        try {
+            return ResponseEntity.ok(userService.getUserById(Long.parseLong(id)));
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
     }
 
     @GetMapping("/me")
@@ -39,10 +44,18 @@ public class UserController {
         return userService.getLoggedUserInfo();
     }
 
-    @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable String id) {
-        userService.deleteUser(id);
+    @PutMapping("")
+    public ResponseEntity<UserEntity> updateUser(@Valid @RequestBody CreateUserDto userEntity) {
+        return ResponseEntity.ok(userService.updateUser(userEntity));
+    }
 
-        return "Deleted user with id".concat(id);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable String id) {
+        try {
+            userService.deleteUser(id);
+            return ResponseEntity.ok("User with id " + id + " deleted successfully");
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
     }
 }
