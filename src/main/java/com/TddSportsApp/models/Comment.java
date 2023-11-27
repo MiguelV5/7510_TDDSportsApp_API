@@ -16,7 +16,6 @@ import java.util.Date;
 @Entity
 @Table(name="comment")
 public class Comment {
-    @NotBlank
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

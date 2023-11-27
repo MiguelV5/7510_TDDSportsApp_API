@@ -1,6 +1,6 @@
 package com.TddSportsApp.models.dto;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,21 +11,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class CreateResultDto {
-    @NotBlank
+    @NotNull(message = "Official is required")
     private Boolean official;
 
-    @NotBlank
+    @NotNull(message = "Time is required")
     private Long time;
 
-    @NotBlank
+    @NotNull(message = "Position is required")
     private Integer position;
 
-    @NotBlank
+    @NotNull(message = "AcceptedByAthlete is required")
     private Boolean acceptedByAthlete;
 
-    @NotBlank
+    @NotNull(message = "EventId is required")
     private Long eventId;
 
-    @NotBlank
+    @NotNull(message = "UserId is required")
     private Long userId;
 }

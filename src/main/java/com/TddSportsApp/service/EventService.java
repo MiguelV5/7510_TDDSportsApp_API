@@ -34,15 +34,7 @@ public class EventService {
     }
 
     public Event createEvent(CreateEventDto eventDto){
-        Event event = Event.builder()
-                .name(eventDto.getName())
-                .location(eventDto.getLocation())
-                .category(eventDto.getCategory())
-                .edition(eventDto.getEdition())
-                .distance(eventDto.getDistance())
-                .date(eventDto.getDate())
-                .build();
-
+        Event event = eventDto.toEvent();
         eventRepository.save(event);
         return event;
     }
@@ -101,6 +93,7 @@ public class EventService {
     }
 
     public void deleteEvent(Long id){
+        this.getEventById(id);
         eventRepository.deleteById(id);
     }
 

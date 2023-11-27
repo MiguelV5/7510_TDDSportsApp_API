@@ -28,7 +28,7 @@ public class UserEntity {
     private String email;
 
     @NotBlank
-    @Size(max = 80)
+    @Size(min = 3, max = 20)
     @Column(unique = true)
     private String username;
 
