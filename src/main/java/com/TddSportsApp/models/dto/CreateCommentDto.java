@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class CreateCommentDto {
-    @NotBlank
+    @NotBlank(message = "Comment text is required")
     private String commentText;
 
-    @NotNull
+    @NotNull(message = "Event id is required")
     private Long eventId;
 }
