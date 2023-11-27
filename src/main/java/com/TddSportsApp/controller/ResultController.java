@@ -1,12 +1,15 @@
 package com.TddSportsApp.controller;
 
 import com.TddSportsApp.exceptions.EventNotFoundException;
+import com.TddSportsApp.exceptions.ForbiddenActionException;
+import com.TddSportsApp.exceptions.ResultNotFoundException;
 import com.TddSportsApp.exceptions.UserNotFoundException;
 import com.TddSportsApp.models.dto.CreateResultDto;
 import com.TddSportsApp.models.Result;
 import com.TddSportsApp.service.ResultService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,8 +45,10 @@ public class ResultController {
         try {
             resultService.deleteResult(id);
             return ResponseEntity.ok().build();
-        } catch (Exception e) {
+        } catch (ResultNotFoundException e) {
             return ResponseEntity.notFound().build();
+        } catch (ForbiddenActionException e){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
     }
 
@@ -51,44 +56,54 @@ public class ResultController {
     public ResponseEntity<Result> updateResult(@PathVariable Long id, @Valid @RequestBody Result updatedResult){
         try {
             return ResponseEntity.ok(resultService.updateResult(id, updatedResult));
-        } catch (Exception e) {
+        } catch (ResultNotFoundException e) {
             return ResponseEntity.notFound().build();
+        } catch (ForbiddenActionException e){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
     }
 
     @PutMapping("/{id}/accept")
     public ResponseEntity<Result> acceptResult(@PathVariable Long id){
         try {
-            return ResponseEntity.ok(resultService.acceptResult(id));
-        } catch (Exception e) {
+            return ResponseEntity.ok(resultService.changeAthleteResult(id, true));
+        } catch (ResultNotFoundException e) {
             return ResponseEntity.notFound().build();
+        } catch (ForbiddenActionException e){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
     }
 
     @PutMapping("/{id}/reject")
     public ResponseEntity<Result> rejectResult(@PathVariable Long id){
         try {
-            return ResponseEntity.ok(resultService.rejectResult(id));
-        } catch (Exception e) {
+            return ResponseEntity.ok(resultService.changeAthleteResult(id, false));
+        } catch (ResultNotFoundException e) {
             return ResponseEntity.notFound().build();
+        } catch (ForbiddenActionException e){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
     }
 
     @PutMapping("/{id}/official")
     public ResponseEntity<Result> setOfficialResult(@PathVariable Long id){
         try {
-            return ResponseEntity.ok(resultService.setOfficialResult(id));
-        } catch (Exception e) {
+            return ResponseEntity.ok(resultService.changeOfficialResult(id, true));
+        } catch (ResultNotFoundException e) {
             return ResponseEntity.notFound().build();
+        } catch (ForbiddenActionException e){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
     }
 
     @PutMapping("/{id}/reject-official")
     public ResponseEntity<Result> rejectOfficialResult(@PathVariable Long id){
         try {
-            return ResponseEntity.ok(resultService.rejectOfficialResult(id));
-        } catch (Exception e) {
+            return ResponseEntity.ok(resultService.changeOfficialResult(id, false));
+        } catch (ResultNotFoundException e) {
             return ResponseEntity.notFound().build();
+        } catch (ForbiddenActionException e){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
     }
 

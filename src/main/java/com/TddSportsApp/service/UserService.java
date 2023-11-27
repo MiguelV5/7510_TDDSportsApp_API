@@ -108,4 +108,9 @@ public class UserService {
         UserEntity loggedUser = this.getLoggedUser();
         return loggedUser.getComments().stream().anyMatch(comment -> comment.getId().equals(id));
     }
+
+    public boolean isLoggedUserOwnerOfResult(Long id) {
+        UserEntity loggedUser = this.getLoggedUser();
+        return loggedUser.getResults().stream().anyMatch(result -> result.getId().equals(id));
+    }
 }
