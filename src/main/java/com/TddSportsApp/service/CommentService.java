@@ -1,5 +1,6 @@
 package com.TddSportsApp.service;
 
+import com.TddSportsApp.exceptions.ForbiddenActionException;
 import com.TddSportsApp.models.dto.CreateCommentDto;
 import com.TddSportsApp.exceptions.EventNotFoundException;
 import com.TddSportsApp.models.Comment;
@@ -46,17 +47,26 @@ public class CommentService {
                 .orElseThrow(() -> new EventNotFoundException("Comment not found with ID: " + id));
     }
 
-    public void deleteComment(Long id){
+    public void deleteComment(Long id) throws ForbiddenActionException {
+        this.getCommentById(id);
+
+        this.validateCommentOwner(id);
+
         commentRepository.deleteById(id);
     }
 
     public Comment updateComment(Long id, UpdateCommentDto commentDto) {
-
-        Comment comment = commentRepository.findById(id)
-                .orElseThrow(() -> new EventNotFoundException("Comment not found with ID: " + id));
+        Comment comment = this.getCommentById(id);
+        this.validateCommentOwner(id);
 
         comment.setCommentText(commentDto.getCommentText());
         commentRepository.save(comment);
         return comment;
+    }
+
+    public void validateCommentOwner(Long id) {
+        if (!userService.isLoggedUserAdmin() && !userService.isLoggedUserOwnerOfComment(id)){
+            throw new ForbiddenActionException("You are not allowed to delete this comment");
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.TddSportsApp.service;
 
+import com.TddSportsApp.exceptions.ForbiddenActionException;
 import com.TddSportsApp.models.dto.CreateResultDto;
 import com.TddSportsApp.exceptions.ResultNotFoundException;
 import com.TddSportsApp.models.Event;
@@ -26,7 +27,6 @@ public class ResultService {
     public Result createResult(CreateResultDto resultDto){
         Event event = eventService.getEventById(resultDto.getEventId());
         UserEntity user = userService.getUserById(resultDto.getUserId());
-//        UserEntity user = userService.getLoggedUser();
 
         System.out.println("Result DTO: " + resultDto);
 
@@ -52,11 +52,14 @@ public class ResultService {
     }
 
     public void deleteResult(Long id){
+        this.getResultById(id);
+        this.validateResultOwner(id);
         resultRepository.deleteById(id);
     }
 
     public Result updateResult(Long id, Result updatedResult){
         Result result = this.getResultById(id);
+        this.validateResultOwner(id);
 
         result.setOfficial(updatedResult.getOfficial());
         result.setTime(updatedResult.getTime());
@@ -66,27 +69,27 @@ public class ResultService {
         return resultRepository.save(result);
     }
 
-    public Result acceptResult(Long id) {
+    public Result changeAthleteResult(Long id, boolean value) {
         Result result = this.getResultById(id);
-        result.setAcceptedByAthlete(true);
+        this.validateResultOwner(id);
+
+        result.setAcceptedByAthlete(value);
         return resultRepository.save(result);
     }
 
-    public Result rejectResult(Long id) {
+    public Result changeOfficialResult(Long id, boolean value) {
         Result result = this.getResultById(id);
-        result.setAcceptedByAthlete(false);
+        if (!userService.isLoggedUserAdmin()){
+            throw new ForbiddenActionException("You are not allowed to delete this result");
+        }
+
+        result.setOfficial(value);
         return resultRepository.save(result);
     }
 
-    public Result setOfficialResult(Long id) {
-        Result result = this.getResultById(id);
-        result.setOfficial(true);
-        return resultRepository.save(result);
-    }
-
-    public Result rejectOfficialResult(Long id) {
-        Result result = this.getResultById(id);
-        result.setOfficial(false);
-        return resultRepository.save(result);
+    public void validateResultOwner(Long id) {
+        if (!userService.isLoggedUserAdmin() && !userService.isLoggedUserOwnerOfResult(id)){
+            throw new ForbiddenActionException("You are not allowed to delete this result");
+        }
     }
 }

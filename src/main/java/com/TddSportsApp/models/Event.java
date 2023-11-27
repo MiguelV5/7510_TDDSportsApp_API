@@ -1,9 +1,9 @@
 package com.TddSportsApp.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -18,7 +18,6 @@ import java.util.Date;
 @Entity
 @Table(name="event")
 public class Event {
-    @NotBlank
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -34,13 +33,13 @@ public class Event {
     @NotBlank
     private String category;
 
-    @NotBlank
+    @NotNull
     private Long distance;
 
-    @NotBlank
+    @NotNull
     private Integer edition;
 
-    @NotBlank
+    @NotNull
     private Date date;
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)

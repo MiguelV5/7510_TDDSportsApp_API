@@ -26,16 +26,16 @@ public class EventController {
     private EventService eventService;
 
     @PostMapping("")
-    public Event createEvent(@Valid @RequestBody CreateEventDto eventDto){
-        return eventService.createEvent(eventDto);
+    public ResponseEntity<Event> createEvent(@Valid @RequestBody CreateEventDto eventDto){
+        return ResponseEntity.ok(eventService.createEvent(eventDto));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getEventById(@PathVariable Long id){
+    public ResponseEntity<EventSuperDto> getEventById(@PathVariable Long id){
         try {
             return ResponseEntity.ok(eventService.getEventByIdWithExtraFields(id));
         } catch(EventNotFoundException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.notFound().build();
         }
     }
 
@@ -63,25 +63,30 @@ public class EventController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteEvent(@PathVariable Long id){
-        eventService.deleteEvent(id);
+    public ResponseEntity deleteEvent(@PathVariable Long id){
+        try {
+            eventService.deleteEvent(id);
+            return ResponseEntity.ok().build();
+        } catch(EventNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateEvent(@PathVariable Long id, @RequestBody Event event){
+    public ResponseEntity<Event> updateEvent(@PathVariable Long id, @Valid @RequestBody Event event){
         try {
             return ResponseEntity.ok(eventService.updateEvent(id, event));
         } catch(EventNotFoundException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.notFound().build();
         }
     }
 
     @PostMapping("/{id}/enroll")
-    public ResponseEntity<?> enrollUser(@PathVariable Long id){
+    public ResponseEntity<Inscription> enrollUser(@PathVariable Long id){
         try {
             return ResponseEntity.ok(eventService.enrollUser(id));
         } catch(EventNotFoundException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.notFound().build();
         }
     }
 
@@ -91,7 +96,7 @@ public class EventController {
             eventService.unenrollUser(id);
             return ResponseEntity.ok().build();
         } catch(EventNotFoundException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.notFound().build();
         }
     }
 }
