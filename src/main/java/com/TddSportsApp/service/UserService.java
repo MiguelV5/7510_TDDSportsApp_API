@@ -98,4 +98,14 @@ public class UserService {
             throw new RuntimeException("Error updating user");
         }
     }
+
+    public boolean isLoggedUserAdmin() {
+        UserEntity loggedUser = this.getLoggedUser();
+        return loggedUser.getRole().equals("ADMIN");
+    }
+
+    public boolean isLoggedUserOwnerOfComment(Long id) {
+        UserEntity loggedUser = this.getLoggedUser();
+        return loggedUser.getComments().stream().anyMatch(comment -> comment.getId().equals(id));
+    }
 }
