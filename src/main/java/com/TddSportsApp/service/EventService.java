@@ -20,6 +20,8 @@ public class EventService {
 
     @Autowired
     private EventRepository eventRepository;
+
+    @Autowired
     private EventCriteriaRepository eventCriteriaRepository;
 
     @Autowired
@@ -27,11 +29,6 @@ public class EventService {
 
     @Autowired
     private InscriptionService inscriptionService;
-
-    public EventService(EventRepository eventRepository, EventCriteriaRepository eventCriteriaRepository) {
-        this.eventRepository = eventRepository;
-        this.eventCriteriaRepository = eventCriteriaRepository;
-    }
 
     public Event createEvent(CreateEventDto eventDto){
         Event event = eventDto.toEvent();
