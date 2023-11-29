@@ -18,7 +18,6 @@ import java.util.Date;
 @Entity
 @Table(name = "inscription")
 public class Inscription {
-
     @EmbeddedId
     private InscriptionKey id;
 
