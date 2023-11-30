@@ -42,7 +42,6 @@ public class SecurityConfig {
             "/api-docs/**",
             "/swagger-ui/**",
             "/swagger",
-            // other public endpoints of the API
             "users/register",
             "/login",
             "/"
@@ -65,8 +64,6 @@ public class SecurityConfig {
                     .authenticated();
             auth.requestMatchers(HttpMethod.GET, "/users", "/users/{id}")
                     .hasAuthority(ADMIN);
-
-
             auth.anyRequest().authenticated();
         });
     }

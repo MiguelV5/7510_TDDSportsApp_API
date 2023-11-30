@@ -100,69 +100,6 @@ public class EventServiceTests {
         }
     }
 
-//    @Test
-//    public void whenGetAllEventsWithoutFilters_thenAllEventsAreReturned(){
-//        // given
-//        Event event1 = createMockEvent();
-//
-//        Event event2 = new Event();
-//        event2.setId(2L);
-//        event2.setName("name2");
-//        event2.setDescription("description2");
-//        event2.setLocation("location2");
-//        event2.setCategory("category2");
-//        event2.setDistance(2L);
-//        event2.setEdition(2);
-//        event2.setDate(new Date());
-//
-//        // when
-//        when(userService.getLoggedUser()).thenReturn(new UserEntity());
-//        when(eventCriteriaRepository.findAllWithFilters(eq(null), any(Long.class))).thenReturn(List.of(event1, event2));
-//        List<Event> foundEvents = eventService.getEvents(null);
-//
-//        // then
-//        assertThat(foundEvents.size()).isEqualTo(2);
-//        assertEquals(foundEvents.get(0), event1);
-//        assertEquals(foundEvents.get(1), event2);
-//    }
-//
-//    @Test
-//    public void whenGetAllEventsWithFilters_thenSpecificEventsAreReturned() {
-//        // given
-//        Event event1 = new Event();
-//        event1.setId(1L);
-//        event1.setName("name1");
-//        event1.setDescription("description1");
-//        event1.setLocation("Buenos Aires");
-//        event1.setCategory("category1");
-//        event1.setDistance(1L);
-//        event1.setEdition(1);
-//        event1.setDate(new Date());
-//
-//        Event event2 = new Event();
-//        event2.setId(2L);
-//        event2.setName("name2");
-//        event2.setDescription("description2");
-//        event2.setLocation("New York");
-//        event2.setCategory("category2");
-//        event2.setDistance(2L);
-//        event2.setEdition(2);
-//        event2.setDate(new Date());
-//
-//        EventSearchCriteria eventSearchCriteria = EventSearchCriteria.builder()
-//                .location("Buenos Aires")
-//                .build();
-//
-//        // when
-//        when(userService.getLoggedUser()).thenReturn(new UserEntity());
-//        when(eventCriteriaRepository.findAllWithFilters(eq(eventSearchCriteria), any(Long.class))).thenReturn(List.of(event1));
-//        List<Event> foundEvents = eventService.getEvents(eventSearchCriteria);
-//
-//        // then
-//        assertThat(foundEvents.size()).isEqualTo(1);
-//        assertEquals(foundEvents.get(0), event1);
-//    }
-
     @Test
     public void whenDeleteEvent_thenDeleteEvent() {
         // given
