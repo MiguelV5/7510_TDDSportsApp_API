@@ -4,7 +4,7 @@
 
 <br>
 <p align="center">
-  <a href="#/"><img src="https://raw.githubusercontent.com/MiguelV5/MiguelV5/main/misc/logofiubatransparent_partialwhite.png" height="180"/></a>
+  <a href="#/"><img src="https://raw.githubusercontent.com/MiguelV5/MiguelV5/main/misc/logofiubatransparent_partialwhite.png" width="60%"/></a>
 </p>
 <br>
 
@@ -45,15 +45,8 @@ docker compose up -d
 La implementación de la API se realizó por medio del framework [Spring](https://spring.io/) para java.
 
 Para la documentación de la misma se utiliza [springdoc-openapi](https://springdoc.org/). 
-Se puede visualizar accediendo **[aquí](https://grupo-4.2023.tecnicasdedisenio.com.ar:34001/swagger)**.
 
-La API está desplegada por medio de [Gitlab CI/CD](https://docs.gitlab.com/ee/ci/)
+Tambien se utilizó el framework [Spring Security](https://docs.spring.io/spring-security/reference/index.html) para creación de filtro JWT para autenticación y autorización de requests, y [JPA + Hibernate](https://docs.spring.io/spring-framework/reference/data-access/orm/jpa.html) para acceso a la base de datos y ORM.
+
+La API fue desplegada por medio de [Gitlab CI/CD](https://docs.gitlab.com/ee/ci/)
 en un servidor proporcionado por la catedra para ejecutar el gitlab-runner y los docker containers.
-
-## Tests
-
-Para correr los tests singularmente, posicionarse en el dir (...) y correr el comando:
-(...)
-(...)
-(...)
-(TODO)
